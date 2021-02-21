@@ -25,6 +25,7 @@ public class Miniproyecto {
        PMaterial p = new PMaterial(vista,material);
        vista.setPresentador(p);
        vista.iniciar();
+       //PRUEBITA SI LE SALE A TAKESHI
     }
     
 }
