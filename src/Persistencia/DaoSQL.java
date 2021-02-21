@@ -4,4 +4,9 @@ public class DaoSQL extends DaoFactory{
     public IDaoMaterial getMaterial() {
        return new DaoMaterial();
     }
+    
+    @Override
+    public IDaoGrupo getGrupo(){
+        return new DaoGrupo();
+    }
 }

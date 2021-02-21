@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class DaoMaterial implements IDaoMaterial<Material>{
-     private Connection connect = conexion.getInstance();    
+    private Connection connect = conexion.getInstance();    
     @Override
     public void insertar(Material m) {
         try{
