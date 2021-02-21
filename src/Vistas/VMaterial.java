@@ -103,7 +103,7 @@ public class VMaterial extends javax.swing.JFrame implements IMaterial{
         jLabel3.setFont(new java.awt.Font("Perpetua", 1, 14)); // NOI18N
         jLabel3.setForeground(new java.awt.Color(0, 102, 102));
         jLabel3.setText("Grupo:");
-        jPanel1.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 200, -1, -1));
+        jPanel1.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 200, -1, 20));
 
         grupo.setBorder(null);
         grupo.setCaretColor(new java.awt.Color(102, 102, 102));
@@ -112,7 +112,7 @@ public class VMaterial extends javax.swing.JFrame implements IMaterial{
                 grupoActionPerformed(evt);
             }
         });
-        jPanel1.add(grupo, new org.netbeans.lib.awtextra.AbsoluteConstraints(146, 208, 137, -1));
+        jPanel1.add(grupo, new org.netbeans.lib.awtextra.AbsoluteConstraints(146, 202, 137, 20));
 
         bnuevo.setText("Nuevo");
         bnuevo.setBorder(null);
@@ -124,7 +124,7 @@ public class VMaterial extends javax.swing.JFrame implements IMaterial{
         jPanel1.add(bnuevo, new org.netbeans.lib.awtextra.AbsoluteConstraints(340, 100, 60, 30));
 
         bguardar.setText("Guardar");
-        jPanel1.add(bguardar, new org.netbeans.lib.awtextra.AbsoluteConstraints(410, 100, -1, -1));
+        jPanel1.add(bguardar, new org.netbeans.lib.awtextra.AbsoluteConstraints(410, 100, -1, 30));
 
         beditar.setText("Editar");
         beditar.setBorder(null);
@@ -133,7 +133,7 @@ public class VMaterial extends javax.swing.JFrame implements IMaterial{
                 beditarActionPerformed(evt);
             }
         });
-        jPanel1.add(beditar, new org.netbeans.lib.awtextra.AbsoluteConstraints(340, 140, 60, 30));
+        jPanel1.add(beditar, new org.netbeans.lib.awtextra.AbsoluteConstraints(340, 150, 60, 30));
 
         bcancelar.setText("Cancelar");
         bcancelar.addActionListener(new java.awt.event.ActionListener() {
@@ -153,8 +153,8 @@ public class VMaterial extends javax.swing.JFrame implements IMaterial{
         jPanel1.add(beliminar, new org.netbeans.lib.awtextra.AbsoluteConstraints(410, 190, 60, 40));
 
         buscar.setText("Buscar");
-        jPanel1.add(buscar, new org.netbeans.lib.awtextra.AbsoluteConstraints(286, 244, -1, -1));
-        jPanel1.add(buscarmaterial, new org.netbeans.lib.awtextra.AbsoluteConstraints(139, 245, 129, -1));
+        jPanel1.add(buscar, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 250, -1, -1));
+        jPanel1.add(buscarmaterial, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 250, 129, -1));
 
         tablamaterial.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
