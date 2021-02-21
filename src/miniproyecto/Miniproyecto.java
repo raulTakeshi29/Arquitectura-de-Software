@@ -27,6 +27,7 @@ public class Miniproyecto {
        vista.iniciar();
        //gfvdcx
        //PRUEBITA SI LE SALE A TAKESHI
+        //SANDY QUE SE SIENTE QUE EDITE TU CODIGO A MI VOLUNTAD CTMR
     }
     
 }
