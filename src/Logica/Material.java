@@ -40,8 +40,6 @@ public class Material {
         this.unidad = unidad;
     }
 
-    
-
     public int getIdgrupo() {
         return idgrupo;
     }

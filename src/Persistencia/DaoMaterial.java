@@ -1,5 +1,4 @@
 package Persistencia;
-
 import Logica.Material;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -72,15 +71,23 @@ public class DaoMaterial implements IDaoMaterial<Material>{
     public List<Material> listado() {
         List<Material> listaMaterial = new ArrayList<>();
         try {
-            String sql = "select * from material";
+            String sql = "select idmaterial,nombre,unidad from material";
+            
             PreparedStatement statement = this.connect.prepareStatement(sql);
-            ResultSet rs = statement.executeQuery();           
+            
+            ResultSet rs = statement.executeQuery(); 
+           
             while(rs.next()){
-                Material m = new Material();
+                Material m =new Material();
+                String query="select nombre from grupo where idgrupo='"+m.getIdgrupo()+"'";
+                PreparedStatement st = this.connect.prepareStatement(query);
+                ResultSet r = st.executeQuery();
+                r.next();
                 m.setIdMaterial(rs.getInt(1));
                 m.setNombre(rs.getString(2));
                 m.setUnidad(rs.getString(3));
-                m.setIdgrupo(rs.getInt(4));
+                r.getString(1);
+                
                 listaMaterial.add(m);
             }  
         }catch (Exception e){
