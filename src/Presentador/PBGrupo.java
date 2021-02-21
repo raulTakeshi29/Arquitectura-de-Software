@@ -40,7 +40,7 @@ public class PBGrupo implements ActionListener,IPBGrupo{
         if(!vista.getBusqueda().equals("")){
             p.mostrarGruposPorNombre(vista.getBusqueda());
         } else{
-            p.actionPerformed(new ActionEvent(this, 1, "Mostrar Grupo"));
+            p.actionPerformed(new ActionEvent(this, 1, "Mostrar Grupos"));
         }
     }
 

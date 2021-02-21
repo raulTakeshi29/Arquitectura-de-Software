@@ -31,7 +31,7 @@ public class DaoGrupo implements IDaoGrupo<Grupo>{
     @Override
     public void actualizar(Grupo g) {
         try{
-            String sql = "UPDATE grupo SET nombre='"+g.getNombre()+"' WHERE idgrupo='"+g.getIdGrupo()+"'";
+            String sql = "UPDATE grupo SET nombre='"+g.getNombre()+"' WHERE idGrupo='"+g.getIdGrupo()+"'";
             PreparedStatement statement = this.connect.prepareStatement(sql);
             statement.executeUpdate();
         }catch (Exception e){
@@ -43,7 +43,7 @@ public class DaoGrupo implements IDaoGrupo<Grupo>{
     public Grupo buscar(int id) {
         try{
             Statement statement=this.connect.createStatement();
-            ResultSet rs = statement.executeQuery("select * from grupo where idGrupo="+id+";");           
+            ResultSet rs = statement.executeQuery("select * from Grupo where idGrupo="+id+";");           
             if(rs.next()){
                 Grupo g = new Grupo();
                 g.setIdGrupo(rs.getInt(1));
@@ -60,7 +60,7 @@ public class DaoGrupo implements IDaoGrupo<Grupo>{
     @Override
     public void eliminar(Grupo g) {
         try{
-            String sql = "delete from grupo where idgrupo="+g.getIdGrupo()+";";
+            String sql = "delete from grupo where idGrupo="+g.getIdGrupo()+";";
             PreparedStatement statement = this.connect.prepareStatement(sql);
             statement.execute();
         }catch (Exception e){
@@ -72,7 +72,7 @@ public class DaoGrupo implements IDaoGrupo<Grupo>{
     public List<Grupo> listado() {
         List<Grupo> listaGrupo = new ArrayList<>();
         try {
-            String sql = "select * from grupo";
+            String sql = "select * from Grupo";
             PreparedStatement statement = this.connect.prepareStatement(sql);
             ResultSet rs = statement.executeQuery();           
             while(rs.next()){
@@ -91,7 +91,7 @@ public class DaoGrupo implements IDaoGrupo<Grupo>{
     public List<Grupo> listadoPorNombre(String input) {
         List<Grupo> listaGrupo = new ArrayList<>();
         try {
-            String sql = "select * from grupo where nombre like '"+input+"%';";
+            String sql = "select * from Grupo where nombre like '"+input+"%';";
             PreparedStatement statement = this.connect.prepareStatement(sql);
             ResultSet rs = statement.executeQuery();           
             while(rs.next()){

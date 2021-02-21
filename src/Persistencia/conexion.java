@@ -9,7 +9,7 @@ public class conexion {
                 System.out.println("Cargando base de datos...");
                 String driver="com.mysql.jdbc.Driver";
                 Class.forName(driver); 
-                connect = DriverManager.getConnection("jdbc:mysql://localhost/constructora", "root", "savasroman29");
+                connect = DriverManager.getConnection("jdbc:mysql://localhost/constructora", "root", "123456789");
                 if(connect!=null){
                     System.out.println("Conexión Establecida");
                 }

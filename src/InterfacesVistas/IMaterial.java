@@ -12,6 +12,7 @@ public interface IMaterial {
     int getItem();
     void setSalida(String[][] lista);
     void mostrarMensaje(String output);
+    void mostrarGrupo(String id);
     void habilitar();
     void restaurar();
     static final String nuevo = "Nuevo";
@@ -20,4 +21,5 @@ public interface IMaterial {
     static final String editar = "Editar";
     static final String eliminar = "Eliminar";
     static final String buscar = "Buscar";
+    static final String buscarGrupo = "Buscar Grupo";
 }

@@ -122,7 +122,9 @@ public class PComun implements ActionListener {
         }
         if (pgrupo != null) {
             pgrupo.mostrar(matriz);
-        }
+        } else{
+            pbgrupo.mostrar(matriz);
+        }  
 
     }
     
@@ -136,6 +138,8 @@ public class PComun implements ActionListener {
         }
         if (pgrupo != null) {
             pgrupo.mostrar(matriz);
+        }else{
+            pbgrupo.mostrar(matriz);
         }
     }
 

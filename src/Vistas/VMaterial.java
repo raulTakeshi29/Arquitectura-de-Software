@@ -49,6 +49,7 @@ public class VMaterial extends javax.swing.JFrame implements IMaterial{
         buscarmaterial = new javax.swing.JTextField();
         jScrollPane2 = new javax.swing.JScrollPane();
         tablamaterial = new javax.swing.JTable();
+        btnBus = new javax.swing.JButton();
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -150,7 +151,7 @@ public class VMaterial extends javax.swing.JFrame implements IMaterial{
                 beliminarActionPerformed(evt);
             }
         });
-        jPanel1.add(beliminar, new org.netbeans.lib.awtextra.AbsoluteConstraints(410, 190, 60, 40));
+        jPanel1.add(beliminar, new org.netbeans.lib.awtextra.AbsoluteConstraints(430, 190, 60, 40));
 
         buscar.setText("Buscar");
         jPanel1.add(buscar, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 250, -1, -1));
@@ -167,6 +168,9 @@ public class VMaterial extends javax.swing.JFrame implements IMaterial{
         jScrollPane2.setViewportView(tablamaterial);
 
         jPanel1.add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 285, 587, 132));
+
+        btnBus.setText("Buscar Grupo");
+        jPanel1.add(btnBus, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 190, 100, 40));
 
         getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 690, 580));
 
@@ -212,12 +216,14 @@ public class VMaterial extends javax.swing.JFrame implements IMaterial{
         beditar.addActionListener(m);
         beliminar.addActionListener(m);
         buscar.addActionListener(m);
+        btnBus.addActionListener(m);
     }
 
     @Override
     public void iniciar() {
         bguardar.setEnabled(false);
         bcancelar.setEnabled(false);
+        btnBus.setEnabled(false);
         nombre.setEnabled(false);
         unidad.setEnabled(false);
         grupo.setEnabled(false);
@@ -272,6 +278,7 @@ public class VMaterial extends javax.swing.JFrame implements IMaterial{
         bguardar.setEnabled(true);
         bcancelar.setEnabled(true);
         beditar.setEnabled(false);
+        btnBus.setEnabled(true);
         nombre.setEnabled(true);
         unidad.setEnabled(true);
         grupo.setEnabled(true);
@@ -284,7 +291,8 @@ public class VMaterial extends javax.swing.JFrame implements IMaterial{
         bnuevo.setEnabled(true);
         bguardar.setEnabled(false);
         bcancelar.setEnabled(false);
-        beditar.setEnabled(true);        
+        beditar.setEnabled(true);
+        btnBus.setEnabled(false);
         nombre.setEnabled(false);
         unidad.setEnabled(false);
         grupo.setEnabled(false);
@@ -305,6 +313,7 @@ public class VMaterial extends javax.swing.JFrame implements IMaterial{
     public javax.swing.JButton beliminar;
     private javax.swing.JButton bguardar;
     public javax.swing.JButton bnuevo;
+    private javax.swing.JButton btnBus;
     private javax.swing.JButton buscar;
     private javax.swing.JTextField buscarmaterial;
     public javax.swing.JTextField grupo;
@@ -319,4 +328,9 @@ public class VMaterial extends javax.swing.JFrame implements IMaterial{
     private javax.swing.JTable tablamaterial;
     public javax.swing.JTextField unidad;
     // End of variables declaration//GEN-END:variables
+
+    @Override
+    public void mostrarGrupo(String id) {
+        grupo.setText(id);
+    }
 }

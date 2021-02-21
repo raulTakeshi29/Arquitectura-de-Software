@@ -7,4 +7,5 @@ public interface IPMaterial {
     void eliminar();
     void mostrar(String[][] matriz);
     void buscar();
+    void mostrarGrupo();
 }

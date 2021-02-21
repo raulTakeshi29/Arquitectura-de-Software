@@ -1,14 +1,18 @@
 package Presentador;
 
 import InterfacesPresentador.IPMaterial;
+import InterfacesVistas.IBGrupo;
 import InterfacesVistas.IMaterial;
+import Logica.Grupo;
 import Logica.Material;
+import Vistas.VBGrupo;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class PMaterial implements ActionListener, IPMaterial{
     private IMaterial vista;
     private Material material;
+    private Grupo g;
     private PComun p = new PComun(this);
     int opcboton = 1;
 
@@ -105,6 +109,23 @@ public class PMaterial implements ActionListener, IPMaterial{
             eliminar();
         } else if (evento.getActionCommand().equals(IMaterial.buscar)) {
             buscar();
+        } else if (evento.getActionCommand().equals(IMaterial.buscarGrupo)){
+            buscarGrupo();
         }
     }    
+
+    @Override
+    public void mostrarGrupo() {
+        vista.mostrarGrupo(String.valueOf(g.getIdGrupo()));
+    }
+    public void buscarGrupo(){
+        IBGrupo ib = new VBGrupo(null,true);
+        PBGrupo pg = new PBGrupo(ib);
+        ib.setPresentador(pg);
+        ib.iniciar();
+        g = pg.getGrupo();
+        if(g!=null){
+            mostrarGrupo();
+        }
+    }
 }
