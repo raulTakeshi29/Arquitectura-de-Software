@@ -1,5 +1,6 @@
 package Presentador;
 
+import InterfacesPresentador.IPBGrupo;
 import InterfacesPresentador.IPGrupo;
 import InterfacesPresentador.IPMaterial;
 import Logica.Grupo;
@@ -14,6 +15,7 @@ public class PComun implements ActionListener {
 
     private IPMaterial pmaterial;
     private IPGrupo pgrupo;
+    private IPBGrupo pbgrupo;
     private LogicaMaterial lm = new LogicaMaterial();
     private LogicaGrupo lg = new LogicaGrupo();
 
@@ -24,6 +26,9 @@ public class PComun implements ActionListener {
     public PComun(IPGrupo pgrupo) {
         this.pgrupo = pgrupo;
     }
+    public PComun(IPBGrupo pbgrupo){
+         this.pbgrupo=pbgrupo;
+     }
 
     public void crearMaterial(String nombre, String unidad, int idgrupo) {
         Material m = new Material();
