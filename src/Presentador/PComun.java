@@ -1,5 +1,6 @@
 package Presentador;
 
+import InterfacesPresentador.IPBGrupo;
 import InterfacesPresentador.IPMaterial;
 import Logica.Material;
 import LogicaPersistencia.LogicaMaterial;
@@ -9,12 +10,15 @@ import java.util.List;
 
 public class PComun implements ActionListener {
     private IPMaterial pmaterial;
+    private IPBGrupo pbgrupo;
     private LogicaMaterial lm = new LogicaMaterial();
     
      public PComun(IPMaterial pmaterial){
         this.pmaterial = pmaterial;
     }
-     
+     public PComun(IPBGrupo pbgrupo){
+         this.pbgrupo=pbgrupo;
+     }
       public void crearMaterial(String nombre,String unidad,int idgrupo){
         Material m = new Material();
         m.setNombre(nombre);

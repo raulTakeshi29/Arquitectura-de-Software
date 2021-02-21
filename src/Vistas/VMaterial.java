@@ -49,6 +49,7 @@ public class VMaterial extends javax.swing.JFrame implements IMaterial{
         buscarmaterial = new javax.swing.JTextField();
         jScrollPane2 = new javax.swing.JScrollPane();
         tablamaterial = new javax.swing.JTable();
+        jButton1 = new javax.swing.JButton();
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -112,7 +113,7 @@ public class VMaterial extends javax.swing.JFrame implements IMaterial{
                 grupoActionPerformed(evt);
             }
         });
-        jPanel1.add(grupo, new org.netbeans.lib.awtextra.AbsoluteConstraints(146, 208, 137, -1));
+        jPanel1.add(grupo, new org.netbeans.lib.awtextra.AbsoluteConstraints(143, 202, 50, 20));
 
         bnuevo.setText("Nuevo");
         bnuevo.setBorder(null);
@@ -167,6 +168,9 @@ public class VMaterial extends javax.swing.JFrame implements IMaterial{
         jScrollPane2.setViewportView(tablamaterial);
 
         jPanel1.add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 285, 587, 132));
+
+        jButton1.setText("Buscar Grupo");
+        jPanel1.add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 200, -1, -1));
 
         getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 690, 580));
 
@@ -308,6 +312,7 @@ public class VMaterial extends javax.swing.JFrame implements IMaterial{
     private javax.swing.JButton buscar;
     private javax.swing.JTextField buscarmaterial;
     public javax.swing.JTextField grupo;
+    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
