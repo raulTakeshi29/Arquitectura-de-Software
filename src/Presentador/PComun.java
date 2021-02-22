@@ -12,12 +12,15 @@ public class PComun implements ActionListener {
     private IPMaterial pmaterial;
     private IPGrupo pgrupo;
     private IPEtapa petapa;
+    private IPEncargado pencargado;
     private IPBGrupo pbgrupo;
     private IPBMaterial pbmaterial;
     private IPBEtapa pbetapa;
+    private IPBEncargado pbencargado;
     private LogicaMaterial lm = new LogicaMaterial();
     private LogicaGrupo lg = new LogicaGrupo();
     private LogicaEtapa le=new LogicaEtapa();
+    private LogicaEncargado len= new LogicaEncargado();
 
     public PComun(IPMaterial pmaterial) {
         this.pmaterial = pmaterial;
@@ -28,6 +31,9 @@ public class PComun implements ActionListener {
     public PComun(IPEtapa petapa){
         this.petapa=petapa;
     }
+    public PComun(IPEncargado pencargado){
+        this.pencargado=pencargado;
+    }
     public PComun(IPBGrupo pbgrupo){
          this.pbgrupo=pbgrupo;
     }
@@ -36,6 +42,9 @@ public class PComun implements ActionListener {
     }
     public PComun(IPBEtapa pbetapa){
         this.pbetapa=pbetapa;
+    }
+    public PComun(IPBEncargado pbencargado){
+        this.pbencargado=pbencargado;
     }
 
     public void crearMaterial(String nombre, String unidad, int idgrupo) {
@@ -211,6 +220,68 @@ public class PComun implements ActionListener {
         Etapa e = le.buscarEtapa(pos);
         return e;
     }
+    
+    
+    public void crearEncargado(String nombre,String apellido) {
+        Encargado e = new Encargado();
+        e.setNombre(nombre);
+        e.setApellido(apellido);
+        len.crearEncargado(e);
+
+    }
+
+    public void editarEncargado(int pos, String nombre,String apellido) {
+        Encargado e = buscarEncargado(pos);
+        e.setNombre(nombre);
+        e.setApellido(apellido);
+        len.actualizarEncargado(e);
+
+    }
+
+    public void eliminarEncargado(int pos) {
+        Encargado e = buscarEncargado(pos);
+        len.eliminarEncargado(e);
+    }
+
+    public void mostrarEncargados() {
+        List<Encargado> encargados = len.getEncargados();
+        String[][] matriz = new String[encargados.size()][3];
+
+        for (int i = 0; i < encargados.size(); i++) {
+            matriz[i][0] = String.valueOf(encargados.get(i).getIdEncargado());
+            matriz[i][1] = encargados.get(i).getNombre();
+            matriz[i][2]= encargados.get(i).getApellido();
+        }
+        if (pencargado != null) {
+            pencargado.mostrar(matriz);
+        } 
+        else{
+            pbencargado.mostrar(matriz);
+        }  
+
+    }
+    
+    public void mostrarEncargadosPorNombre(String input){
+         List<Encargado> encargados = len.getEncargadoPorNombre(input);
+        String[][] matriz = new String[encargados.size()][3];
+
+        for (int i = 0; i < encargados.size(); i++) {
+            matriz[i][0] = String.valueOf(encargados.get(i).getIdEncargado());
+            matriz[i][1] = encargados.get(i).getNombre();
+            matriz[i][2]= encargados.get(i).getApellido();
+        }
+        if (pencargado != null) {
+            pencargado.mostrar(matriz);
+        } 
+        else{
+            pbencargado.mostrar(matriz);
+        }  
+    }
+
+    public Encargado buscarEncargado(int pos) {
+        Encargado e = len.buscarEncargado(pos);
+        return e;
+    }
 
 
     @Override
@@ -221,6 +292,8 @@ public class PComun implements ActionListener {
             mostrarGrupos();
         }else if (evento.getActionCommand().equals("Mostrar Etapas")) {
             mostrarEtapas();
+        }else if (evento.getActionCommand().equals("Mostrar Encargados")) {
+            mostrarEncargados();
         }
     }
 
