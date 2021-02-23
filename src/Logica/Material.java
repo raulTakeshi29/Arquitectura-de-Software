@@ -4,16 +4,16 @@ public class Material {
     private int idMaterial;
     private String nombre;
     private String unidad;
-    private int idgrupo;
+    private Grupo grupo;
 
     public Material() {
     }
 
-    public Material(int idMaterial, String nombre, String unidad, int idgrupo) {
+    public Material(int idMaterial, String nombre, String unidad, Grupo idgrupo) {
         this.idMaterial = idMaterial;
         this.nombre = nombre;
         this.unidad = unidad;
-        this.idgrupo = idgrupo;
+        this.grupo = idgrupo;
     }
 
     public int getIdMaterial() {
@@ -40,13 +40,14 @@ public class Material {
         this.unidad = unidad;
     }
 
-    public int getIdgrupo() {
-        return idgrupo;
+    public Grupo getGrupo() {
+        return grupo;
     }
 
-    public void setIdgrupo(int idgrupo) {
-        this.idgrupo = idgrupo;
+    public void setGrupo(Grupo grupo) {
+        this.grupo = grupo;
     }
+
 
     
     

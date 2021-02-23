@@ -9,4 +9,9 @@ public class DaoSQL extends DaoFactory{
     public IDaoGrupo getGrupo() {
         return new DaoGrupo();
     }
+
+    @Override
+    public IDaoResponsable getResponsable() {
+        return new DaoResponsable();
+    }
 }

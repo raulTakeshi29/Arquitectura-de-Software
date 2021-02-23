@@ -1,11 +1,7 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package Persistencia;
+
 import Logica.Grupo;
-import Logica.Material;
+import Logica.Responsable;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -14,14 +10,17 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
-public class DaoGrupo implements IDaoGrupo<Grupo>{
-    private Connection connect = conexion.getInstance();    
+public class DaoResponsable implements IDaoResponsable <Responsable>{
+
+    private Connection connect = conexion.getInstance();
+
     @Override
-    public void insertar(Grupo g) {
-        try{
-            String sql = "INSERT INTO grupo (nombre) VALUES(?)";
+    public void insertar(Responsable obj) {
+         try{
+            String sql = "INSERT INTO Responsable (nombre,apellido) VALUES(?,?)";
             PreparedStatement ps = this.connect.prepareStatement(sql);
-            ps.setString(1,g.getNombre());
+            ps.setString(1,obj.getNombre());
+            ps.setString(2, obj.getApellido());
             ps.execute();                
         }catch (Exception e){
           e.printStackTrace();
@@ -29,9 +28,9 @@ public class DaoGrupo implements IDaoGrupo<Grupo>{
     }
 
     @Override
-    public void actualizar(Grupo g) {
+    public void actualizar(Responsable obj) {
         try{
-            String sql = "UPDATE grupo SET nombre='"+g.getNombre()+"' WHERE idGrupo='"+g.getIdGrupo()+"'";
+            String sql = "UPDATE Responsable SET nombre="+obj.getNombre()+", apellido="+obj.getApellido()+" WHERE id="+obj.getId()+";";
             PreparedStatement statement = this.connect.prepareStatement(sql);
             statement.executeUpdate();
         }catch (Exception e){
@@ -40,15 +39,16 @@ public class DaoGrupo implements IDaoGrupo<Grupo>{
     }
 
     @Override
-    public Grupo buscar(int id) {
+    public Responsable buscar(int id) {
         try{
             Statement statement=this.connect.createStatement();
-            ResultSet rs = statement.executeQuery("select * from Grupo where idGrupo="+id+";");           
+            ResultSet rs = statement.executeQuery("select * from Responsable where id="+id+";");           
             if(rs.next()){
-                Grupo g = new Grupo();
-                g.setIdGrupo(rs.getInt(1));
-                g.setNombre(rs.getString(2));
-                return g;
+                Responsable r = new Responsable();
+                r.setId(rs.getInt(1));
+                r.setNombre(rs.getString(2));
+                r.setApellido(rs.getString(3));
+                return r;
             }else{
                 return null;
             }         
@@ -58,9 +58,9 @@ public class DaoGrupo implements IDaoGrupo<Grupo>{
     }
 
     @Override
-    public void eliminar(Grupo g) {
+    public void eliminar(Responsable obj) {
         try{
-            String sql = "delete from grupo where idGrupo="+g.getIdGrupo()+";";
+            String sql = "delete from grupo where idGrupo="+obj.getId()+";";
             PreparedStatement statement = this.connect.prepareStatement(sql);
             statement.execute();
         }catch (Exception e){
@@ -69,43 +69,45 @@ public class DaoGrupo implements IDaoGrupo<Grupo>{
     }
 
     @Override
-    public List<Grupo> listado() {
-        List<Grupo> listaGrupo = new ArrayList<>();
+    public List<Responsable> listado() {
+        List<Responsable> lista = new ArrayList<>();
         try {
             String sql = "select * from Grupo";
             PreparedStatement statement = this.connect.prepareStatement(sql);
             ResultSet rs = statement.executeQuery();           
             while(rs.next()){
-                Grupo g = new Grupo();
-                g.setIdGrupo(rs.getInt(1));
-                g.setNombre(rs.getString(2));
-                listaGrupo.add(g);
+                Responsable r = new Responsable();
+                r.setId(rs.getInt(1));
+                r.setNombre(rs.getString(2));
+                r.setApellido(rs.getString(3));
+                lista.add(r);
             }  
         }catch (Exception e){
             e.printStackTrace();
         } 
-        return listaGrupo;
+        return lista;
     }
-    
+
     @Override
-    public List<Grupo> listadoPorNombre(String input) {
-        List<Grupo> listaGrupo = new ArrayList<>();
+    public List<Responsable> listadoPorNombre(String input) {
+        List<Responsable> lista = new ArrayList<>();
         try {
             String sql = "select * from Grupo where nombre like '"+input+"%';";
             PreparedStatement statement = this.connect.prepareStatement(sql);
             ResultSet rs = statement.executeQuery();           
             while(rs.next()){
-                Grupo g = new Grupo();
-                g.setIdGrupo(rs.getInt(1));
-                g.setNombre(rs.getString(2));
-                listaGrupo.add(g);
+                Responsable r = new Responsable();
+                r.setId(rs.getInt(1));
+                r.setNombre(rs.getString(2));
+                r.setApellido(rs.getString(3));
+                lista.add(r);
             }  
         }catch (Exception e){
             e.printStackTrace();
         } 
-        return listaGrupo;
-    } 
+        return lista;
+    }
 
     
-    
+
 }

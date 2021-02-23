@@ -1,4 +1,6 @@
 package Persistencia;
+
+import Logica.Grupo;
 import Logica.Material;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -8,112 +10,151 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
-public class DaoMaterial implements IDaoMaterial<Material>{
-     private Connection connect = conexion.getInstance();    
+public class DaoMaterial implements IDaoMaterial<Material> {
+
+    private Connection connect = conexion.getInstance();
+
     @Override
     public void insertar(Material m) {
-        try{
+        try {
             String sql = "INSERT INTO material (nombre,unidad,idgrupo) VALUES(?,?,?)";
             PreparedStatement ps = this.connect.prepareStatement(sql);
-            ps.setString(1,m.getNombre());
-            ps.setString(2,m.getUnidad());
-            ps.setInt(3,m.getIdgrupo());
-            ps.execute();                
-        }catch (Exception e){
-          e.printStackTrace();
+            ps.setString(1, m.getNombre());
+            ps.setString(2, m.getUnidad());
+            ps.setInt(3, m.getGrupo().getIdGrupo());
+            ps.execute();
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
     }
 
     @Override
     public void actualizar(Material m) {
-        try{
-            String sql = "UPDATE material SET nombre='"+m.getNombre()+"', unidad='"+m.getUnidad()+"',"
-                    + "idgrupo='"+m.getIdgrupo()+" WHERE idmaterial='"+m.getIdMaterial()+"'";
+        try {
+            String sql = "UPDATE material SET nombre=" + m.getNombre() + ", unidad=" + m.getUnidad() + ","
+                    + "idgrupo=" + m.getGrupo().getIdGrupo() + " WHERE idmaterial=" + m.getIdMaterial() + ";";
             PreparedStatement statement = this.connect.prepareStatement(sql);
             statement.executeUpdate();
-        }catch (Exception e){
-          e.printStackTrace();
-        } 
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
     public Material buscar(int id) {
-        try{
-            Statement statement=this.connect.createStatement();
-            ResultSet rs = statement.executeQuery("select * from material where idmaterial="+id+";");           
-            if(rs.next()){
+        try {
+            Statement statement = this.connect.createStatement();
+            ResultSet rs = statement.executeQuery("select * from Material where idmaterial=" + id + ";");
+            if (rs.next()) {
                 Material m = new Material();
                 m.setIdMaterial(rs.getInt(1));
                 m.setNombre(rs.getString(2));
                 m.setUnidad(rs.getString(3));
-                m.setIdgrupo(rs.getInt(4));
+                Grupo grupo = new Grupo();
+                int idGrupo = rs.getInt(4);
+                if (idGrupo == 0) {
+                    grupo.setNombre("------");
+                } else {
+                    String sql2 = "select nombre from\n"
+                            + "Grupo where\n"
+                            + "idGrupo=" + idGrupo;
+                    PreparedStatement statement1 = this.connect.prepareStatement(sql2);
+                    ResultSet rs2 = statement1.executeQuery();
+                    while (rs2.next()) {
+                        grupo.setNombre(rs2.getString(1));
+                    }
+                }
+                m.setGrupo(grupo);
                 return m;
-            }else{
+            } else {
                 return null;
-            }         
-        }catch(SQLException e){
+            }
+        } catch (SQLException e) {
             return null;
-        } 
+        }
     }
 
     @Override
     public void eliminar(Material m) {
-        try{
-            String sql = "delete from material where idmaterial="+m.getIdMaterial()+";";
+        try {
+            String sql = "delete from material where idmaterial=" + m.getIdMaterial() + ";";
             PreparedStatement statement = this.connect.prepareStatement(sql);
             statement.execute();
-        }catch (Exception e){
-          e.printStackTrace();
-        } 
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
     public List<Material> listado() {
         List<Material> listaMaterial = new ArrayList<>();
         try {
-            String sql = "select idmaterial,nombre,unidad from material";
-            
+            String sql = "select*from Material";
+
             PreparedStatement statement = this.connect.prepareStatement(sql);
-            
-            ResultSet rs = statement.executeQuery(); 
-           
-            while(rs.next()){
-                Material m =new Material();
-                String query="select nombre from grupo where idgrupo='"+m.getIdgrupo()+"'";
-                PreparedStatement st = this.connect.prepareStatement(query);
-                ResultSet r = st.executeQuery();
-                r.next();
-                m.setIdMaterial(rs.getInt(1));
-                m.setNombre(rs.getString(2));
-                m.setUnidad(rs.getString(3));
-                r.getString(1);
-                
-                listaMaterial.add(m);
-            }  
-        }catch (Exception e){
-            e.printStackTrace();
-        } 
-        return listaMaterial;
-    }
-    
-    @Override
-    public List<Material> listadoPorNombre(String input) {
-        List<Material> listaMaterial = new ArrayList<>();
-        try {
-            String sql = "select * from material where nombre like '"+input+"%';";
-            PreparedStatement statement = this.connect.prepareStatement(sql);
-            ResultSet rs = statement.executeQuery();           
-            while(rs.next()){
+
+            ResultSet rs = statement.executeQuery();
+
+            while (rs.next()) {
                 Material m = new Material();
                 m.setIdMaterial(rs.getInt(1));
                 m.setNombre(rs.getString(2));
                 m.setUnidad(rs.getString(3));
-                m.setIdgrupo(rs.getInt(4));
+                Grupo grupo = new Grupo();
+                int idGrupo = rs.getInt(4);
+                if (idGrupo == 0) {
+                    grupo.setNombre("------");
+                } else {
+                    String sql2 = "select nombre from\n"
+                            + "Grupo where\n"
+                            + "idGrupo=" + idGrupo;
+                    PreparedStatement statement1 = this.connect.prepareStatement(sql2);
+                    ResultSet rs2 = statement1.executeQuery();
+                    while (rs2.next()) {
+                        grupo.setNombre(rs2.getString(1));
+                    }
+                }
+                m.setGrupo(grupo);
                 listaMaterial.add(m);
-            }  
-        }catch (Exception e){
+            }
+        } catch (SQLException e) {
             e.printStackTrace();
-        } 
+        }
         return listaMaterial;
-    }   
+    }
+
+    @Override
+    public List<Material> listadoPorNombre(String input) {
+        List<Material> listaMaterial = new ArrayList<>();
+        try {
+            String sql = "select * from Material WHERE nombre like '" + input + "%';";
+            PreparedStatement statement = this.connect.prepareStatement(sql);
+            ResultSet rs = statement.executeQuery();
+            while (rs.next()) {
+                Material m = new Material();
+                m.setIdMaterial(rs.getInt(1));
+                m.setNombre(rs.getString(2));
+                m.setUnidad(rs.getString(3));
+                Grupo grupo = new Grupo();
+                int idGrupo = rs.getInt(4);
+                if (idGrupo == 0) {
+                    grupo.setNombre("------");
+                } else {
+                    String sql2 = "select nombre from\n"
+                            + "Grupo where\n"
+                            + "idGrupo=" + idGrupo;
+                    PreparedStatement statement1 = this.connect.prepareStatement(sql2);
+                    ResultSet rs2 = statement1.executeQuery();
+                    while (rs2.next()) {
+                        grupo.setNombre(rs2.getString(1));
+                    }
+                }
+                m.setGrupo(grupo);
+                listaMaterial.add(m);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return listaMaterial;
+    }
 }

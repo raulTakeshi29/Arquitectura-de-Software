@@ -3,10 +3,13 @@ package Presentador;
 import InterfacesPresentador.IPBGrupo;
 import InterfacesPresentador.IPGrupo;
 import InterfacesPresentador.IPMaterial;
+import InterfacesPresentador.IPResponsable;
 import Logica.Grupo;
 import Logica.Material;
+import Logica.Responsable;
 import LogicaPersistencia.LogicaGrupo;
 import LogicaPersistencia.LogicaMaterial;
+import LogicaPersistencia.LogicaResponsable;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.List;
@@ -16,8 +19,10 @@ public class PComun implements ActionListener {
     private IPMaterial pmaterial;
     private IPGrupo pgrupo;
     private IPBGrupo pbgrupo;
+    private IPResponsable presponsable;
     private LogicaMaterial lm = new LogicaMaterial();
     private LogicaGrupo lg = new LogicaGrupo();
+    private LogicaResponsable lr = new LogicaResponsable();
 
     public PComun(IPMaterial pmaterial) {
         this.pmaterial = pmaterial;
@@ -29,12 +34,17 @@ public class PComun implements ActionListener {
     public PComun(IPBGrupo pbgrupo){
          this.pbgrupo=pbgrupo;
      }
+    public PComun(IPResponsable presponsable){
+        this.presponsable=presponsable;
+    }
 
     public void crearMaterial(String nombre, String unidad, int idgrupo) {
         Material m = new Material();
         m.setNombre(nombre);
         m.setUnidad(unidad);
-        m.setIdgrupo(idgrupo);
+        Grupo g = new Grupo();
+        g.setIdGrupo(idgrupo);
+        m.setGrupo(g);
         lm.crearMaterial(m);
         mostrarMateriales();
     }
@@ -43,7 +53,9 @@ public class PComun implements ActionListener {
         Material m = buscarMaterial(pos);
         m.setNombre(nombre);
         m.setUnidad(unidad);
-        m.setIdgrupo(idgrupo);
+        Grupo g = new Grupo();
+        g.setIdGrupo(idgrupo);
+        m.setGrupo(g);
         lm.actualizarMaterial(m);
         mostrarMateriales();
     }
@@ -66,7 +78,7 @@ public class PComun implements ActionListener {
             matriz[i][0] = String.valueOf(materiales.get(i).getIdMaterial());
             matriz[i][1] = materiales.get(i).getNombre();
             matriz[i][2] = materiales.get(i).getUnidad();
-            matriz[i][3] = String.valueOf(materiales.get(i).getIdgrupo());
+            matriz[i][3] = materiales.get(i).getGrupo().getNombre();
         }
         if (pmaterial != null) {
             pmaterial.mostrar(matriz);
@@ -83,7 +95,7 @@ public class PComun implements ActionListener {
             matriz[i][0] = String.valueOf(materiales.get(i).getIdMaterial());
             matriz[i][1] = materiales.get(i).getNombre();
             matriz[i][2] = materiales.get(i).getUnidad();
-            matriz[i][3] = String.valueOf(materiales.get(i).getIdgrupo());
+            matriz[i][3] = materiales.get(i).getGrupo().getNombre();
         }
         if (pmaterial != null) {
             pmaterial.mostrar(matriz);
@@ -97,6 +109,7 @@ public class PComun implements ActionListener {
         Grupo g = new Grupo();
         g.setNombre(nombre);
         lg.crearGrupo(g);
+        mostrarGrupos();
 
     }
 
@@ -104,12 +117,14 @@ public class PComun implements ActionListener {
         Grupo g = buscarGrupo(pos);
         g.setNombre(nombre);
         lg.actualizarGrupo(g);
+        mostrarGrupos();
 
     }
 
     public void eliminarGrupo(int pos) {
         Grupo g = buscarGrupo(pos);
         lg.eliminarGrupo(g);
+        mostrarGrupos();
     }
 
     public void mostrarGrupos() {
@@ -147,6 +162,60 @@ public class PComun implements ActionListener {
         Grupo g = lg.buscarGrupo(pos);
         return g;
     }
+    
+    public void crearResponsable(String nombre, String apellido){
+        Responsable r = new Responsable();
+        r.setNombre(nombre);
+        r.setApellido(apellido);
+        lr.crearResponsable(r);
+        mostrarResponsables();
+    }
+    
+    public void editarResponsable(int pos, String nombre, String apellido){
+        Responsable r= buscarResponsable(pos);
+        r.setNombre(nombre);
+        r.setApellido(apellido);
+        lr.actualizarResponsable(r);
+        mostrarResponsables();
+    }
+    public void eliminarResponsable(int pos){
+        Responsable r = buscarResponsable(pos);
+        lr.eliminarResponsable(r);
+        mostrarResponsables();
+    }
+    
+    public Responsable buscarResponsable(int id) {
+        Responsable r = lr.buscarResponsable(id);
+        return r;
+    }
+    
+    public void mostrarResponsables() {
+        List<Responsable> responsables = lr.getResponsables();
+        String[][] matriz = new String[responsables.size()][3];
+        for (int i = 0; i < responsables.size(); i++) {
+            matriz[i][0] = String.valueOf(responsables.get(i).getId());
+            matriz[i][1] = responsables.get(i).getNombre();
+            matriz[i][2] = responsables.get(i).getApellido();
+        }
+        if (presponsable != null) {
+            presponsable.mostrar(matriz);
+        }
+        //else if(pbproducto!=null){
+        //pbproducto.mostrar(matriz);
+        //}
+    }
+    public void mostrarResponsablePorNombre(String input){
+        List<Responsable> responsables = lr.getResponsablePorNombre(input);
+        String[][] matriz = new String[responsables.size()][3];
+        for (int i = 0; i < responsables.size(); i++) {
+            matriz[i][0] = String.valueOf(responsables.get(i).getId());
+            matriz[i][1] = responsables.get(i).getNombre();
+            matriz[i][2] = responsables.get(i).getApellido();
+        }
+        if (presponsable != null) {
+            presponsable.mostrar(matriz);
+        }
+    }
 
     @Override
     public void actionPerformed(ActionEvent evento) {
@@ -154,6 +223,8 @@ public class PComun implements ActionListener {
             mostrarMateriales();
         } else if (evento.getActionCommand().equals("Mostrar Grupos")) {
             mostrarGrupos();
+        } else if (evento.getActionCommand().equals("Mostrar Responsables")){
+            mostrarResponsables();
         }
     }
 
