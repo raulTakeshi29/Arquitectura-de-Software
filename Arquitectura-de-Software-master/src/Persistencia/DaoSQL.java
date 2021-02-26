@@ -28,4 +28,9 @@ public class DaoSQL extends DaoFactory{
     public IDaoProyecto getProyecto(){
         return new DaoProyecto();
     }
+    
+     @Override
+    public IDaoCentroCostos getCentroCostos() {
+        return new DaoCentroCostos();
+    }
 }

@@ -5,20 +5,20 @@
  */
 package Vistas;
 
-import InterfacesVistas.IBEncargado;
-import Presentador.PBEncargado;
+import InterfacesVistas.IBResponsable;
+import Presentador.PBResponsable;
 import javax.swing.JOptionPane;
 
 /**
  *
  * @author sroma
  */
-public class VBEncargado extends java.awt.Dialog implements IBEncargado{
+public class VBResponsable extends java.awt.Dialog implements IBResponsable{
 
     /**
-     * Creates new form VBEncargado
+     * Creates new form VBResponsable
      */
-    public VBEncargado(java.awt.Frame parent, boolean modal) {
+    public VBResponsable(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
     }
@@ -33,10 +33,10 @@ public class VBEncargado extends java.awt.Dialog implements IBEncargado{
 
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
-        encargado = new javax.swing.JTextField();
+        responsable = new javax.swing.JTextField();
         buscar = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
-        encargados = new javax.swing.JTable();
+        responsables = new javax.swing.JTable();
         aceptar = new javax.swing.JButton();
         cancelar = new javax.swing.JButton();
 
@@ -50,12 +50,12 @@ public class VBEncargado extends java.awt.Dialog implements IBEncargado{
 
         jLabel1.setText("Buscar:");
         jPanel1.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 60, -1, -1));
-        jPanel1.add(encargado, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 50, 90, 30));
+        jPanel1.add(responsable, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 50, 90, 30));
 
         buscar.setText("Buscar");
         jPanel1.add(buscar, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 50, -1, -1));
 
-        encargados.setModel(new javax.swing.table.DefaultTableModel(
+        responsables.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
@@ -63,7 +63,7 @@ public class VBEncargado extends java.awt.Dialog implements IBEncargado{
                 "id", "Nombre", "Apellidol"
             }
         ));
-        jScrollPane1.setViewportView(encargados);
+        jScrollPane1.setViewportView(responsables);
 
         jPanel1.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 100, 290, 110));
 
@@ -90,8 +90,9 @@ public class VBEncargado extends java.awt.Dialog implements IBEncargado{
      * @param p
      * @param args the command line arguments
      */
-     @Override
-    public void setPresentador(PBEncargado p) {
+    
+@Override
+    public void setPresentador(PBResponsable p) {
         aceptar.addActionListener(p);
         cancelar.addActionListener(p);
         buscar.addActionListener(p);
@@ -106,13 +107,13 @@ public class VBEncargado extends java.awt.Dialog implements IBEncargado{
 
     @Override
     public String getBusqueda() {
-        return encargado.getText();
+        return responsable.getText();
     }
 
     @Override
     public int getItem() {
-        if(encargados.getSelectedRow()!=-1){
-            return Integer.parseInt(String.valueOf(encargados.getValueAt(encargados.getSelectedRow(), 0)));
+        if(responsables.getSelectedRow()!=-1){
+            return Integer.parseInt(String.valueOf(responsables.getValueAt(responsables.getSelectedRow(), 0)));
         } else{
             return -1;
         }
@@ -120,7 +121,7 @@ public class VBEncargado extends java.awt.Dialog implements IBEncargado{
 
     @Override
     public void setSalida(String[][] lista) {
-        encargados.setModel(new javax.swing.table.DefaultTableModel(lista,new String [] {"Id", "Nombre","Apellido"}));
+        responsables.setModel(new javax.swing.table.DefaultTableModel(lista,new String [] {"Id", "Nombre","Apellido"}));
     }
 
     @Override
@@ -133,15 +134,14 @@ public class VBEncargado extends java.awt.Dialog implements IBEncargado{
         this.dispose();
     } 
 
-
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton aceptar;
     private javax.swing.JButton buscar;
     private javax.swing.JButton cancelar;
-    private javax.swing.JTextField encargado;
-    private javax.swing.JTable encargados;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JTextField responsable;
+    private javax.swing.JTable responsables;
     // End of variables declaration//GEN-END:variables
 }

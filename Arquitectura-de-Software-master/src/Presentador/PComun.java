@@ -1,5 +1,9 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
 package Presentador;
-
 import InterfacesPresentador.*;
 import Logica.*;
 import LogicaPersistencia.*;
@@ -8,23 +12,26 @@ import java.awt.event.ActionListener;
 import java.util.List;
 
 public class PComun implements ActionListener {
-
     private IPMaterial pmaterial;
     private IPGrupo pgrupo;
     private IPEtapa petapa;
     private IPEncargado pencargado;
     private IPResponsable presponsable;
     private IPProyecto pproyecto;
+    private IPBProyecto pbproyecto;
     private IPBGrupo pbgrupo;
     private IPBEtapa pbetapa;
     private IPBEncargado pbencargado;
     private IPBMaterial pbmaterial;
+    private IPCentroCostos pCentroCostos;
+    private IPBResponsable pbresponsable;
     private LogicaMaterial lm = new LogicaMaterial();
     private LogicaGrupo lg = new LogicaGrupo();
     private LogicaResponsable lr = new LogicaResponsable();
     private LogicaEtapa le=new LogicaEtapa();
     private LogicaEncargado len= new LogicaEncargado();
     private LogicaProyecto lp=new LogicaProyecto();
+    private LogicaCentroCostos cc = new LogicaCentroCostos();
     
     public PComun(IPMaterial pmaterial) {
         this.pmaterial = pmaterial;
@@ -53,7 +60,18 @@ public class PComun implements ActionListener {
     public PComun(IPResponsable presponsable){
         this.presponsable=presponsable;
     }
-
+    public PComun(IPBResponsable pbresponsable){
+        this.pbresponsable=pbresponsable;
+    }
+    public PComun(PCentroCostos centroCostos) {
+        this.pCentroCostos=centroCostos;
+    }
+    public PComun(IPBMaterial pbmaterial){
+        this.pbmaterial=pbmaterial;
+    }
+    public PComun(IPBProyecto pbproyecto){
+        this.pbproyecto=pbproyecto;
+    }
     public void crearMaterial(String nombre, String unidad, int idgrupo) {
         Material m = new Material();
         m.setNombre(nombre);
@@ -333,9 +351,9 @@ public class PComun implements ActionListener {
         if (presponsable != null) {
             presponsable.mostrar(matriz);
         }
-        //else if(pbproducto!=null){
-        //pbproducto.mostrar(matriz);
-        //}
+        else if(pbresponsable!=null){
+              pbresponsable.mostrar(matriz);
+        }
     }
     public void mostrarResponsablePorNombre(String input){
         List<Responsable> responsables = lr.getResponsablePorNombre(input);
@@ -347,6 +365,9 @@ public class PComun implements ActionListener {
         }
         if (presponsable != null) {
             presponsable.mostrar(matriz);
+        }
+        else if(pbresponsable!=null){
+              pbresponsable.mostrar(matriz);
         }
     }
     
@@ -394,9 +415,9 @@ public class PComun implements ActionListener {
         if (pproyecto != null) {
             pproyecto.mostrar(matriz);
         }
-        //else if(pbmaterial!=null){
-          // pbmaterial.mostrar(matriz);
-        //}
+        else if(pbproyecto!=null){
+           pbproyecto.mostrar(matriz);
+        }
     }
 
     public void mostrarProyectosPorNombre(String input) {
@@ -416,6 +437,58 @@ public class PComun implements ActionListener {
         //}
     }
 
+     
+    public void crearCentroCostos(String Tipo){
+       CentroCostos c = new CentroCostos();
+        c.setTipo(Tipo);
+        cc.crearCentroCostos(c);
+        mostrarProyectos();
+    }
+     public void editarCentroCostos(int id, String tipo){
+        CentroCostos r= buscarCentroCostos(id);
+        r.setIdCentroCostos(id);
+        r.setTipo(tipo);
+        cc.actualizarCentroCostros(r);
+        mostrarCentroCostos();
+    }
+     
+      public void eliminarCentroCostos(int pos){
+        CentroCostos r = buscarCentroCostos(pos);
+       cc.eliminarCentroCostos(r);
+        mostrarCentroCostos();
+    }
+    
+    public CentroCostos buscarCentroCostos(int id) {
+        CentroCostos dd = cc.buscarCentroCostos(id);
+        return dd;
+    }
+    
+    public void mostrarCentroCostos() {
+        List<CentroCostos> centroc = cc.getCentroCostos();
+        String[][] matriz = new String[centroc.size()][3];
+        for (int i = 0; i < centroc.size(); i++) {
+            matriz[i][0] = String.valueOf(centroc.get(i).getIdCentroCostos());
+            matriz[i][1] = centroc.get(i).getTipo();
+        }
+        if (pCentroCostos != null) {
+            pCentroCostos.mostrar(matriz);
+        }
+        //else if(pbproducto!=null){
+        //pbproducto.mostrar(matriz) a;
+        //}
+    }
+    public void mostrarCentroCostoTipo(String input){
+        List<CentroCostos> centroc = cc.getCentroCostosTipo(input);
+        String[][] matriz = new String[centroc.size()][2];
+        for (int i = 0; i < centroc.size(); i++) {
+            matriz[i][0] = String.valueOf(centroc.get(i).getIdCentroCostos());
+            matriz[i][1] = centroc.get(i).getTipo();
+        }
+        if (pCentroCostos != null) {
+            pCentroCostos.mostrar(matriz);
+        }
+    }
+    
     @Override
     public void actionPerformed(ActionEvent evento) {
         if (evento.getActionCommand().equals("Mostrar Materiales")) {
@@ -430,7 +503,12 @@ public class PComun implements ActionListener {
             mostrarEtapas();
         }else if (evento.getActionCommand().equals("Mostrar Proyectos")){
             mostrarProyectos();
+        }else if (evento.getActionCommand().equals("Mostrar Centro de Costos")){
+            mostrarCentroCostos();
         }
     }
 
 }
+
+    
+

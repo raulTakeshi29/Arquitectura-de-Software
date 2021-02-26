@@ -1,7 +1,7 @@
 package InterfacesVistas;
-import Presentador.PBMaterial;
-public interface IBMaterial {
-    void setPresentador(PBMaterial p);
+import Presentador.PBProyecto;
+public interface IBProyecto {
+    void setPresentador(PBProyecto p);
     void iniciar();
     String getBusqueda();
     int getItem();

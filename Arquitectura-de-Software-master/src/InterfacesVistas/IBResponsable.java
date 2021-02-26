@@ -1,7 +1,9 @@
 package InterfacesVistas;
-import Presentador.PBMaterial;
-public interface IBMaterial {
-    void setPresentador(PBMaterial p);
+
+import Presentador.PBResponsable;
+
+public interface IBResponsable {
+    void setPresentador(PBResponsable p);
     void iniciar();
     String getBusqueda();
     int getItem();
@@ -11,4 +13,5 @@ public interface IBMaterial {
     static final String cancelar = "Cancelar";
     static final String aceptar = "Aceptar";
     static final String buscar = "Buscar";
+
 }

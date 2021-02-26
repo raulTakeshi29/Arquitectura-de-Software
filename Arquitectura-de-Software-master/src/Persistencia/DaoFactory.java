@@ -6,5 +6,6 @@ public abstract class DaoFactory {
     public abstract IDaoEtapa getEtapa();
     public abstract IDaoEncargado getEncargado();
     public abstract IDaoProyecto getProyecto();
+    public abstract IDaoCentroCostos getCentroCostos();
 }
 
