@@ -5,12 +5,16 @@
  */
 package Vistas;
 
+import InterfacesVistas.IBProyecto;
+import Presentador.PBProyecto;
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author sroma
  */
-public class VBProyecto extends java.awt.Dialog {
-
+public class VBProyecto extends java.awt.Dialog implements IBProyecto{
+Validacion v = new Validacion();
     /**
      * Creates new form VBProyecto
      */
@@ -29,10 +33,10 @@ public class VBProyecto extends java.awt.Dialog {
 
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
-        grupo = new javax.swing.JTextField();
+        proyecto = new javax.swing.JTextField();
         buscar = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
-        grupos = new javax.swing.JTable();
+        proyectos = new javax.swing.JTable();
         aceptar = new javax.swing.JButton();
         cancelar = new javax.swing.JButton();
 
@@ -46,12 +50,12 @@ public class VBProyecto extends java.awt.Dialog {
 
         jLabel1.setText("Buscar:");
         jPanel1.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 60, -1, -1));
-        jPanel1.add(grupo, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 50, 90, 30));
+        jPanel1.add(proyecto, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 50, 90, 30));
 
         buscar.setText("Buscar");
         jPanel1.add(buscar, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 50, -1, -1));
 
-        grupos.setModel(new javax.swing.table.DefaultTableModel(
+        proyectos.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
@@ -59,7 +63,7 @@ public class VBProyecto extends java.awt.Dialog {
                 "id", "Nombre"
             }
         ));
-        jScrollPane1.setViewportView(grupos);
+        jScrollPane1.setViewportView(proyectos);
 
         jPanel1.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 100, 290, 110));
 
@@ -78,8 +82,7 @@ public class VBProyecto extends java.awt.Dialog {
      * Closes the dialog
      */
     private void closeDialog(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_closeDialog
-        setVisible(false);
-        dispose();
+       
     }//GEN-LAST:event_closeDialog
 
     /**
@@ -92,10 +95,54 @@ public class VBProyecto extends java.awt.Dialog {
     private javax.swing.JButton aceptar;
     private javax.swing.JButton buscar;
     private javax.swing.JButton cancelar;
-    private javax.swing.JTextField grupo;
-    private javax.swing.JTable grupos;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JTextField proyecto;
+    private javax.swing.JTable proyectos;
     // End of variables declaration//GEN-END:variables
+
+    @Override
+    public void setPresentador(PBProyecto p) {
+        aceptar.addActionListener(p);
+        cancelar.addActionListener(p);
+        buscar.addActionListener(p);
+    }
+
+    @Override
+    public void iniciar() {
+        pack();
+        setLocationRelativeTo(null);
+        setVisible(true);
+    }
+
+    @Override
+    public String getBusqueda() {
+        return v.StringSwing(proyecto.getText(),"buscar");
+    }
+
+    @Override
+    public int getItem() {
+        if(proyectos.getSelectedRow()!=-1){
+            return Integer.parseInt(String.valueOf(proyectos.getValueAt(proyectos.getSelectedRow(), 0)));
+        } else{
+            return -1;
+        }
+    }
+
+    @Override
+    public void setSalida(String[][] lista) {
+        proyectos.setModel(new javax.swing.table.DefaultTableModel(lista,new String [] {"Id", "Nombre"}));
+    }
+
+    @Override
+    public void mostrarMensaje(String output) {
+        JOptionPane.showMessageDialog(null, output);
+    }        
+    
+    @Override
+    public void cerrar(){
+        this.dispose();
+    } 
+
 }

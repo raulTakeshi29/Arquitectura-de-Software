@@ -11,7 +11,7 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
-public class DaoProyecto implements IDaoProyecto<Proyecto>{
+public class DaoProyecto implements IDao<Proyecto>{
     private Connection connect = conexion.getInstance();
 
     @Override

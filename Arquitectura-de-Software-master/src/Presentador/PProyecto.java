@@ -1,6 +1,5 @@
 package Presentador;
 
-import InterfacesPresentador.IPProyecto;
 import InterfacesVistas.IBEncargado;
 import InterfacesVistas.IBEtapa;
 import InterfacesVistas.IMaterial;
@@ -9,105 +8,95 @@ import Logica.Encargado;
 import Logica.Etapa;
 import Logica.Material;
 import Logica.Proyecto;
+import Persistencia.DaoProyecto;
+import Persistencia.IDao;
 import Vistas.VBEncargado;
 import Vistas.VBEtapa;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.List;
 
-public class PProyecto implements ActionListener, IPProyecto{
+public class PProyecto implements ActionListener{
      private IProyecto vista;
     private Proyecto proyecto;
-    private Encargado enc;
-    private Etapa et;
-    private PComun p = new PComun(this);
-    int opcboton = 1;
+    private Encargado encargado;
+    private Etapa etapa;
+    IDao dao = new DaoProyecto();
 
     public PProyecto(IProyecto vista, Proyecto proyecto) {
         this.vista = vista;
         this.proyecto = proyecto;
-        p.actionPerformed(new ActionEvent(this, 1, "Mostrar Proyectos"));
     }
     
-    @Override
-    public void nuevo() {
-        vista.habilitar();
-        opcboton = 1;
-    }
-
-    @Override
-    public void guardar() {
-        String nombre= vista.getnombre();
-        String encargado= vista.getencargado();
-        String etapa= vista.getetapa();
-        
-        if(!nombre.equals("")&&!encargado.equals("")&&!etapa.equals("")){
-            int Encargado=Integer.parseInt(encargado);
-            int Etapa=Integer.parseInt(etapa);
-            switch(opcboton){
-                case 1:
-                    p.crearProyecto(nombre,Encargado,Etapa);
-                    vista.mostrarMensaje("Proyecto creado");
-                    vista.restaurar();
-                    break;
-                case 2:
-                    if(vista.getItem()!=-1){
-                        p.editarProyecto(vista.getItem(),nombre,Encargado,Etapa);
-                        vista.mostrarMensaje("Proyecto actualizado");
-                        vista.restaurar();
-                    } else{
-                        vista.mostrarMensaje("Seleccione un proyecto");
-                    }
-                    break;
-            }
-            
-        } else{
-            vista.mostrarMensaje("No deje el campo en blanco.");
-        }    
-    }
-
-    @Override
     public void cancelar() {
         vista.mostrarMensaje("Operación cancelada.");
         vista.restaurar();
     }
 
-    @Override
-    public void editar() {
-        vista.habilitar();
-        opcboton = 2;
+    public void registrar() {
+        proyecto.setNombre(vista.getnombre());
+        encargado.setIdEncargado(vista.getencargado());
+        proyecto.setEncargado(encargado);
+        dao.insertar(proyecto);
+        mostrarProyectos();
+        vista.mostrarMensaje("Proyecto Registrado");
+        vista.restaurar();
     }
 
-    @Override
-    public void eliminar() {
-        if(vista.getItem()!=-1){
-            p.eliminarProyecto(vista.getItem());
-            vista.mostrarMensaje("Proyecto eliminado");
-            vista.restaurar();
-        } else{
-            vista.mostrarMensaje("Seleccione un proyecto");
-        }
+    public void editar() {
+        proyecto = buscarProyecto(vista.getItem());
+        proyecto.setNombre(vista.getnombre());
+        encargado.setIdEncargado(vista.getencargado());
+        proyecto.setEncargado(encargado);
+        etapa.setIdEtapa(vista.getetapa());
+        proyecto.setEtapa(etapa);
+        dao.actualizar(proyecto);
+        mostrarProyectos();
+        vista.mostrarMensaje("Proyecto Actualizado");
+        vista.restaurar();
     }
-    
-    @Override
-    public void mostrar(String[][] matriz){
+
+    public void eliminar() {
+        proyecto = buscarProyecto(vista.getItem());
+        dao.eliminar(proyecto);
+        mostrarProyectos();
+        vista.mostrarMensaje("Proyecto Eliminado");
+        vista.restaurar();        
+    }
+
+    public Proyecto buscarProyecto(int id) {
+        proyecto = (Proyecto) dao.buscar(id);
+        return proyecto;
+    }
+
+    public void mostrarProyectos() {
+        List<Proyecto> proyectos = dao.listado();
+        String[][] matriz = new String[proyectos.size()][4];
+        for (int i = 0; i < proyectos.size(); i++) {
+            matriz[i][0] = String.valueOf(proyectos.get(i).getIdProyecto());
+            matriz[i][1] = proyectos.get(i).getNombre();
+            matriz[i][2] = proyectos.get(i).getEncargado().getNombre();
+            matriz[i][3] = proyectos.get(i).getEtapa().getNombre();
+        }
+        vista.setSalida(matriz);
+    }
+
+    public void mostrarProyectosPorNombre() {
+        List<Proyecto> proyectos = dao.listadoPorNombre(vista.getBusqueda());
+        String[][] matriz = new String[proyectos.size()][4];
+        for (int i = 0; i < proyectos.size(); i++) {
+            matriz[i][0] = String.valueOf(proyectos.get(i).getIdProyecto());
+            matriz[i][1] = proyectos.get(i).getNombre();
+            matriz[i][2] = proyectos.get(i).getEncargado().getNombre();
+            matriz[i][3] = proyectos.get(i).getEtapa().getNombre();
+        }
         vista.setSalida(matriz);
     }
     
     @Override
-    public void buscar(){
-        if(!vista.getBusqueda().equals("")){
-            p.mostrarProyectosPorNombre(vista.getBusqueda());
-        } else{
-            p.actionPerformed(new ActionEvent(this, 1, "Mostrar Proyectos"));
-        }
-    }
-    
-    @Override
     public void actionPerformed(ActionEvent evento) {
-        if (evento.getActionCommand().equals(IProyecto.nuevo)) {
-            nuevo();           
-        } else if (evento.getActionCommand().equals(IProyecto.guardar)) {
-            guardar();
+        if (evento.getActionCommand().equals(IProyecto.guardar)) {
+            registrar();
         } else if (evento.getActionCommand().equals(IProyecto.cancelar)) {
             cancelar();
         } else if (evento.getActionCommand().equals(IProyecto.editar)) {
@@ -115,15 +104,14 @@ public class PProyecto implements ActionListener, IPProyecto{
         } else if (evento.getActionCommand().equals(IProyecto.eliminar)) {
             eliminar();
         } else if (evento.getActionCommand().equals(IProyecto.buscar)) {
-            buscar();
+            mostrarProyectosPorNombre();
         } else if (evento.getActionCommand().equals(IProyecto.buscarEncargado)){
             buscarEncargado();
         }
     }    
 
-    @Override
     public void mostrarEncargado() {
-        vista.mostrarEncargado(String.valueOf(enc.getIdEncargado()));
+        vista.mostrarEncargado(encargado.getIdEncargado());
     }
     
     public void buscarEncargado(){
@@ -131,15 +119,14 @@ public class PProyecto implements ActionListener, IPProyecto{
         PBEncargado pg = new PBEncargado(ib);
         ib.setPresentador(pg);
         ib.iniciar();
-        enc = pg.getEncargado();
-        if(enc!=null){
+        encargado = pg.getEncargado();
+        if(encargado!=null){
             mostrarEncargado();
         }
     }
     
-    @Override
     public void mostrarEtapa() {
-        vista.mostrarEtapa(String.valueOf(et.getIdEtapa()));
+        vista.mostrarEtapa(etapa.getIdEtapa());
     }
     
     public void buscarEtapa(){
@@ -147,8 +134,8 @@ public class PProyecto implements ActionListener, IPProyecto{
         PBEtapa pg = new PBEtapa(ib);
         ib.setPresentador(pg);
         ib.iniciar();
-        et = pg.getEtapa();
-        if(et!=null){
+        etapa = pg.getEtapa();
+        if(etapa!=null){
             mostrarEtapa();
         }
     }

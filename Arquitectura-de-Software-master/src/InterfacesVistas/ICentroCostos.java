@@ -19,10 +19,8 @@ public interface ICentroCostos {
     int getItem();
     void setSalida(String[][] lista);
     void mostrarMensaje(String output);
-    void habilitar();
     void restaurar();
-    static final String nuevo = "Nuevo";
-    static final String guardar = "Guardar";
+    static final String guardar = "Registrar";
     static final String cancelar = "Cancelar";
     static final String editar = "Editar";
     static final String eliminar = "Eliminar";

@@ -14,7 +14,7 @@ import javax.swing.JOptionPane;
  * @author sroma
  */
 public class VEtapa extends javax.swing.JFrame implements IEtapa{
-
+Validacion v= new Validacion();
     /**
      * Creates new form VEtapa
      */
@@ -40,7 +40,6 @@ public class VEtapa extends javax.swing.JFrame implements IEtapa{
         btnBus = new javax.swing.JButton();
         nombre = new javax.swing.JTextField();
         buscar = new javax.swing.JTextField();
-        nuevo = new javax.swing.JButton();
         guardar = new javax.swing.JButton();
         editar = new javax.swing.JButton();
 
@@ -67,9 +66,7 @@ public class VEtapa extends javax.swing.JFrame implements IEtapa{
 
         btnBus.setText("Buscar");
 
-        nuevo.setText("Nuevo");
-
-        guardar.setText("Guardar");
+        guardar.setText("Registrar");
 
         editar.setText("Editar");
 
@@ -94,18 +91,20 @@ public class VEtapa extends javax.swing.JFrame implements IEtapa{
                                     .addComponent(nombre))
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addGroup(layout.createSequentialGroup()
-                                        .addGap(150, 150, 150)
-                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                            .addComponent(editar)
-                                            .addComponent(nuevo)))
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addGroup(layout.createSequentialGroup()
+                                                .addGap(152, 152, 152)
+                                                .addComponent(editar))
+                                            .addGroup(layout.createSequentialGroup()
+                                                .addGap(34, 34, 34)
+                                                .addComponent(btnBus)))
+                                        .addGap(18, 18, 18)
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(cancelar)
+                                            .addComponent(eliminar)))
                                     .addGroup(layout.createSequentialGroup()
-                                        .addGap(34, 34, 34)
-                                        .addComponent(btnBus)))
-                                .addGap(18, 18, 18)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(cancelar)
-                                    .addComponent(guardar)
-                                    .addComponent(eliminar))))
+                                        .addGap(166, 166, 166)
+                                        .addComponent(guardar)))))
                         .addGap(121, 121, 121)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
@@ -118,7 +117,6 @@ public class VEtapa extends javax.swing.JFrame implements IEtapa{
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
                     .addComponent(nombre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(nuevo)
                     .addComponent(guardar))
                 .addGap(27, 27, 27)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -142,7 +140,6 @@ public class VEtapa extends javax.swing.JFrame implements IEtapa{
      */
     @Override
     public void setPresentador(PEtapa m) {
-        nuevo.addActionListener(m);
         guardar.addActionListener(m);
         cancelar.addActionListener(m);
         editar.addActionListener(m);
@@ -152,9 +149,6 @@ public class VEtapa extends javax.swing.JFrame implements IEtapa{
 
     @Override
     public void iniciar() {
-        guardar.setEnabled(false);
-        cancelar.setEnabled(false);
-        nombre.setEnabled(false);
         pack();
         setLocationRelativeTo(null);
         setVisible(true);
@@ -162,12 +156,12 @@ public class VEtapa extends javax.swing.JFrame implements IEtapa{
 
     @Override
     public String getnombre() {
-       return nombre.getText();
+       return v.StringSwing(nombre.getText(),"nombre");
     }
 
     @Override
     public String getBusqueda() {
-       return buscar.getText();
+       return v.StringSwing(buscar.getText(),"buscar");
     }
 
     @Override
@@ -189,33 +183,13 @@ public class VEtapa extends javax.swing.JFrame implements IEtapa{
         JOptionPane.showMessageDialog(null, output);
     }
 
-    @Override
-    public void habilitar() {
-        eliminar.setEnabled(false);
-        nuevo.setEnabled(false);
-        guardar.setEnabled(true);
-        cancelar.setEnabled(true);
-        editar.setEnabled(false);
-        nombre.setEnabled(true);
-        
-    }
+    
 
     @Override
     public void restaurar() {
-        eliminar.setEnabled(true);
-        nuevo.setEnabled(true);
-        guardar.setEnabled(false);
-        cancelar.setEnabled(false);
-        editar.setEnabled(true);        
-        nombre.setEnabled(false);
-     
-        limpiarCampos();
+        nombre.setText("");
     }
 
-     private void limpiarCampos(){
-        nombre.setText("");
-        
-    }
     
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -229,7 +203,6 @@ public class VEtapa extends javax.swing.JFrame implements IEtapa{
     private javax.swing.JLabel jLabel3;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTextField nombre;
-    private javax.swing.JButton nuevo;
     private javax.swing.JTable tabla;
     // End of variables declaration//GEN-END:variables
 }

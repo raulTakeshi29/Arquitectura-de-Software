@@ -10,7 +10,7 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
-public class DaoMaterial implements IDaoMaterial<Material> {
+public class DaoMaterial implements IDao<Material> {
 
     private Connection connect = conexion.getInstance();
 

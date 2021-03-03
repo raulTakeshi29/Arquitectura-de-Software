@@ -1,36 +1,36 @@
 package Persistencia;
 public class DaoSQL extends DaoFactory{
     @Override
-    public IDaoMaterial getMaterial() {
+    public IDao getMaterial() {
        return new DaoMaterial();
     }
 
     @Override
-    public IDaoGrupo getGrupo() {
+    public IDao getGrupo() {
         return new DaoGrupo();
     }
 
     @Override
-    public IDaoResponsable getResponsable() {
+    public IDao getResponsable() {
         return new DaoResponsable();
     }
     @Override
-    public IDaoEtapa getEtapa() {
+    public IDao getEtapa() {
         return new DaoEtapa();
     }
     
     @Override
-    public IDaoEncargado getEncargado() {
+    public IDao getEncargado() {
         return new DaoEncargado();
     }
     
     @Override
-    public IDaoProyecto getProyecto(){
+    public IDao getProyecto(){
         return new DaoProyecto();
     }
     
      @Override
-    public IDaoCentroCostos getCentroCostos() {
+    public IDao getCentroCostos() {
         return new DaoCentroCostos();
     }
 }

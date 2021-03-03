@@ -14,7 +14,7 @@ import javax.swing.JOptionPane;
  * @author sroma
  */
 public class VProyecto extends javax.swing.JFrame implements IProyecto{
-
+Validacion v= new Validacion();
     /**
      * Creates new form VProyecto
      */
@@ -33,7 +33,6 @@ public class VProyecto extends javax.swing.JFrame implements IProyecto{
 
         encargado = new javax.swing.JTextField();
         guardar = new javax.swing.JButton();
-        nuevo = new javax.swing.JButton();
         cancelar = new javax.swing.JButton();
         eliminar = new javax.swing.JButton();
         editar = new javax.swing.JButton();
@@ -50,9 +49,7 @@ public class VProyecto extends javax.swing.JFrame implements IProyecto{
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        guardar.setText("Guardar");
-
-        nuevo.setText("Nuevo");
+        guardar.setText("Registrar");
 
         cancelar.setText("Cancelar");
 
@@ -106,13 +103,10 @@ public class VProyecto extends javax.swing.JFrame implements IProyecto{
                     .addComponent(nombre, javax.swing.GroupLayout.DEFAULT_SIZE, 109, Short.MAX_VALUE)
                     .addComponent(encargado, javax.swing.GroupLayout.DEFAULT_SIZE, 109, Short.MAX_VALUE)
                     .addComponent(etapa))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 198, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(editar, javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(nuevo)
-                        .addGap(18, 18, 18)
-                        .addComponent(guardar))
+                    .addComponent(guardar, javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(cancelar, javax.swing.GroupLayout.Alignment.TRAILING))
                 .addContainerGap())
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
@@ -144,9 +138,7 @@ public class VProyecto extends javax.swing.JFrame implements IProyecto{
                         .addContainerGap()
                         .addComponent(jLabel3)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(guardar)
-                            .addComponent(nuevo))
+                        .addComponent(guardar)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(editar)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)))
@@ -181,7 +173,6 @@ public class VProyecto extends javax.swing.JFrame implements IProyecto{
      */
    @Override
     public void setPresentador(PProyecto m) {
-        nuevo.addActionListener(m);
         guardar.addActionListener(m);
         cancelar.addActionListener(m);
         editar.addActionListener(m);
@@ -192,12 +183,6 @@ public class VProyecto extends javax.swing.JFrame implements IProyecto{
 
     @Override
     public void iniciar() {
-        guardar.setEnabled(false);
-        cancelar.setEnabled(false);
-        btnBus.setEnabled(false);
-        nombre.setEnabled(false);
-        encargado.setEnabled(false);
-        etapa.setEnabled(false);
         pack();
         setLocationRelativeTo(null);
         setVisible(true);
@@ -205,22 +190,22 @@ public class VProyecto extends javax.swing.JFrame implements IProyecto{
 
     @Override
     public String getnombre() {
-        return nombre.getText();
+        return v.StringSwing(nombre.getText(),"nombre");
     }
 
     @Override
-    public String getencargado() {
-        return encargado.getText();
+    public int getencargado() {
+        return v.IntSwing(encargado.getText(),"encargado");
     }
 
     @Override
-    public String getetapa() {
-        return etapa.getText();
+    public int getetapa() {
+        return v.IntSwing(etapa.getText(),"etapa");
     }
 
     @Override
     public String getBusqueda() {
-        return buscarproyecto.getText();
+        return v.StringSwing(buscarproyecto.getText(),"buscar");
     }
 
     @Override
@@ -242,41 +227,15 @@ public class VProyecto extends javax.swing.JFrame implements IProyecto{
         JOptionPane.showMessageDialog(null, output);
     }
 
-    @Override
-    public void habilitar() {
-        eliminar.setEnabled(false);
-        nuevo.setEnabled(false);
-        guardar.setEnabled(true);
-        cancelar.setEnabled(true);
-        editar.setEnabled(false);
-        btnBus.setEnabled(true);
-        nombre.setEnabled(true);
-        encargado.setEnabled(true);
-        etapa.setEnabled(true);
-        
-    }
-
+    
     @Override
     public void restaurar() {
-        eliminar.setEnabled(true);
-        nuevo.setEnabled(true);
-        guardar.setEnabled(false);
-        cancelar.setEnabled(false);
-        editar.setEnabled(true);
-        btnBus.setEnabled(false);
-        nombre.setEnabled(false);
-        encargado.setEnabled(false);
-        etapa.setEnabled(false);
-        
-        limpiarCampos();
-    }
-    
-     private void limpiarCampos(){
         nombre.setText("");
         encargado.setText("");
         etapa.setText("");
-        
     }
+    
+    
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnBus;
@@ -293,17 +252,17 @@ public class VProyecto extends javax.swing.JFrame implements IProyecto{
     private javax.swing.JLabel jLabel4;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTextField nombre;
-    private javax.swing.JButton nuevo;
     private javax.swing.JTable tabla;
     // End of variables declaration//GEN-END:variables
 
     @Override
-    public void mostrarEncargado(String id) {
-        encargado.setText(id);
+    public void mostrarEncargado(int id) {
+        encargado.setText(v.intToString(id,"encargado"));
     }
 
     @Override
-    public void mostrarEtapa(String id) {
-        etapa.setText(id);
+    public void mostrarEtapa(int id) {
+        etapa.setText(v.intToString(id,"etapa"));
     }
+
 }

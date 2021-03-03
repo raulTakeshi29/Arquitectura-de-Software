@@ -14,7 +14,7 @@ import javax.swing.JOptionPane;
  * @author sroma
  */
 public class VBGrupo extends java.awt.Dialog implements IBGrupo{
-
+Validacion v = new Validacion();
     /**
      * Creates new form VBGrupo
      */
@@ -106,7 +106,7 @@ public class VBGrupo extends java.awt.Dialog implements IBGrupo{
 
     @Override
     public String getBusqueda() {
-        return grupo.getText();
+        return v.StringSwing(grupo.getText(),"buscar");
     }
 
     @Override

@@ -14,7 +14,7 @@ import javax.swing.JOptionPane;
  * @author sroma
  */
 public class VMaterial extends javax.swing.JFrame implements IMaterial{
-
+Validacion v= new Validacion();
     /**
      * Creates new form VMaterial
      */
@@ -40,7 +40,6 @@ public class VMaterial extends javax.swing.JFrame implements IMaterial{
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         grupo = new javax.swing.JTextField();
-        bnuevo = new javax.swing.JButton();
         bguardar = new javax.swing.JButton();
         beditar = new javax.swing.JButton();
         bcancelar = new javax.swing.JButton();
@@ -115,16 +114,7 @@ public class VMaterial extends javax.swing.JFrame implements IMaterial{
         });
         jPanel1.add(grupo, new org.netbeans.lib.awtextra.AbsoluteConstraints(146, 202, 137, 20));
 
-        bnuevo.setText("Nuevo");
-        bnuevo.setBorder(null);
-        bnuevo.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                bnuevoActionPerformed(evt);
-            }
-        });
-        jPanel1.add(bnuevo, new org.netbeans.lib.awtextra.AbsoluteConstraints(340, 100, 60, 30));
-
-        bguardar.setText("Guardar");
+        bguardar.setText("Registrar");
         jPanel1.add(bguardar, new org.netbeans.lib.awtextra.AbsoluteConstraints(410, 100, -1, 30));
 
         beditar.setText("Editar");
@@ -189,10 +179,6 @@ public class VMaterial extends javax.swing.JFrame implements IMaterial{
         // TODO add your handling code here:
     }//GEN-LAST:event_grupoActionPerformed
 
-    private void bnuevoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bnuevoActionPerformed
-
-    }//GEN-LAST:event_bnuevoActionPerformed
-
     private void beditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_beditarActionPerformed
 
     }//GEN-LAST:event_beditarActionPerformed
@@ -211,7 +197,6 @@ public class VMaterial extends javax.swing.JFrame implements IMaterial{
      */
     @Override
     public void setPresentador(PMaterial m) {
-        bnuevo.addActionListener(m);
         bguardar.addActionListener(m);
         bcancelar.addActionListener(m);
         beditar.addActionListener(m);
@@ -222,12 +207,6 @@ public class VMaterial extends javax.swing.JFrame implements IMaterial{
 
     @Override
     public void iniciar() {
-        bguardar.setEnabled(false);
-        bcancelar.setEnabled(false);
-        btnBus.setEnabled(false);
-        nombre.setEnabled(false);
-        unidad.setEnabled(false);
-        grupo.setEnabled(false);
         pack();
         setLocationRelativeTo(null);
         setVisible(true);
@@ -235,22 +214,22 @@ public class VMaterial extends javax.swing.JFrame implements IMaterial{
 
     @Override
     public String getnombre() {
-        return nombre.getText();
+        return v.StringSwing(nombre.getText(),"nombre");
     }
 
     @Override
     public String getunidad() {
-        return unidad.getText();
+        return v.StringSwing(unidad.getText(),"unidad");
     }
 
     @Override
-    public String getgrupo() {
-        return grupo.getText();
+    public int getgrupo() {
+        return v.IntSwing(grupo.getText(),"grupo");
     }
 
     @Override
     public String getBusqueda() {
-        return buscarmaterial.getText();
+        return v.StringSwing(buscarmaterial.getText(),"buscar");
     }
 
     @Override
@@ -273,47 +252,17 @@ public class VMaterial extends javax.swing.JFrame implements IMaterial{
     }
 
     @Override
-    public void habilitar() {
-        beliminar.setEnabled(false);
-        bnuevo.setEnabled(false);
-        bguardar.setEnabled(true);
-        bcancelar.setEnabled(true);
-        beditar.setEnabled(false);
-        btnBus.setEnabled(true);
-        nombre.setEnabled(true);
-        unidad.setEnabled(true);
-        grupo.setEnabled(true);
-        
-    }
-
-    @Override
     public void restaurar() {
-        beliminar.setEnabled(true);
-        bnuevo.setEnabled(true);
-        bguardar.setEnabled(false);
-        bcancelar.setEnabled(false);
-        beditar.setEnabled(true);
-        btnBus.setEnabled(false);
-        nombre.setEnabled(false);
-        unidad.setEnabled(false);
-        grupo.setEnabled(false);
-        
-        limpiarCampos();
-    }
-    
-     private void limpiarCampos(){
         nombre.setText("");
         unidad.setText("");
         grupo.setText("");
-        
     }
-
+    
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton bcancelar;
     public javax.swing.JButton beditar;
     public javax.swing.JButton beliminar;
     private javax.swing.JButton bguardar;
-    public javax.swing.JButton bnuevo;
     private javax.swing.JButton btnBus;
     private javax.swing.JButton buscar;
     private javax.swing.JTextField buscarmaterial;
@@ -331,7 +280,7 @@ public class VMaterial extends javax.swing.JFrame implements IMaterial{
     // End of variables declaration//GEN-END:variables
 
     @Override
-    public void mostrarGrupo(String id) {
-        grupo.setText(id);
+    public void mostrarGrupo(int id) {
+        grupo.setText(v.intToString(id,"grupo"));
     }
 }

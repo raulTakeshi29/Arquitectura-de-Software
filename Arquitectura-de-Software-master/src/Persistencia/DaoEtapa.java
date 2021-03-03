@@ -9,7 +9,7 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
-public class DaoEtapa implements IDaoEtapa<Etapa>{
+public class DaoEtapa implements IDao<Etapa>{
     private Connection connect = conexion.getInstance();    
     @Override
     public void insertar(Etapa et) {

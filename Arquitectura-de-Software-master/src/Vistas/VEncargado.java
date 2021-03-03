@@ -14,7 +14,7 @@ import javax.swing.JOptionPane;
  * @author sroma
  */
 public class VEncargado extends javax.swing.JFrame implements IEncargado{
-
+Validacion v= new Validacion();
     /**
      * Creates new form VEncargado
      */
@@ -32,7 +32,6 @@ public class VEncargado extends javax.swing.JFrame implements IEncargado{
     private void initComponents() {
 
         buscar = new javax.swing.JTextField();
-        nuevo = new javax.swing.JButton();
         editar = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         tabla = new javax.swing.JTable();
@@ -47,10 +46,11 @@ public class VEncargado extends javax.swing.JFrame implements IEncargado{
         eliminar = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-
-        nuevo.setText("Nuevo");
+        getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+        getContentPane().add(buscar, new org.netbeans.lib.awtextra.AbsoluteConstraints(69, 168, 109, -1));
 
         editar.setText("Editar");
+        getContentPane().add(editar, new org.netbeans.lib.awtextra.AbsoluteConstraints(269, 92, -1, -1));
 
         tabla.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -62,113 +62,37 @@ public class VEncargado extends javax.swing.JFrame implements IEncargado{
         ));
         jScrollPane1.setViewportView(tabla);
 
+        getContentPane().add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 200, -1, 131));
+
         jLabel3.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         jLabel3.setText("ENCARGADOS");
+        getContentPane().add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(251, 11, -1, -1));
 
         jLabel1.setText("Nombre:");
+        getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 71, -1, -1));
 
         btnBus.setText("Buscar");
+        getContentPane().add(btnBus, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 170, -1, -1));
+        getContentPane().add(nombre, new org.netbeans.lib.awtextra.AbsoluteConstraints(69, 68, 109, -1));
 
         jLabel2.setText("Apellido:");
+        getContentPane().add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 109, -1, -1));
 
         apellido.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 apellidoActionPerformed(evt);
             }
         });
+        getContentPane().add(apellido, new org.netbeans.lib.awtextra.AbsoluteConstraints(69, 106, 106, -1));
 
-        guardar.setText("Guardar");
+        guardar.setText("Registrar");
+        getContentPane().add(guardar, new org.netbeans.lib.awtextra.AbsoluteConstraints(267, 63, -1, -1));
 
         cancelar.setText("Cancelar");
+        getContentPane().add(cancelar, new org.netbeans.lib.awtextra.AbsoluteConstraints(269, 121, -1, -1));
 
         eliminar.setText("Eliminar");
-
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-        getContentPane().setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabel2)
-                        .addGap(18, 18, 18)
-                        .addComponent(apellido, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 248, Short.MAX_VALUE)
-                        .addComponent(cancelar)
-                        .addGap(33, 33, 33))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                .addComponent(guardar)
-                                .addGap(25, 25, 25))
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                .addComponent(eliminar)
-                                .addGap(98, 98, 98))))))
-            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(layout.createSequentialGroup()
-                    .addContainerGap()
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGroup(layout.createSequentialGroup()
-                            .addGap(241, 241, 241)
-                            .addComponent(jLabel3))
-                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                            .addComponent(jLabel1)
-                            .addGap(18, 18, 18)
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGroup(layout.createSequentialGroup()
-                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                        .addComponent(buscar, javax.swing.GroupLayout.DEFAULT_SIZE, 109, Short.MAX_VALUE)
-                                        .addComponent(nombre))
-                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addGroup(layout.createSequentialGroup()
-                                            .addGap(150, 150, 150)
-                                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                                .addComponent(editar)
-                                                .addComponent(nuevo)))
-                                        .addGroup(layout.createSequentialGroup()
-                                            .addGap(34, 34, 34)
-                                            .addComponent(btnBus)))))))
-                    .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(65, 65, 65)
-                .addComponent(guardar)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(18, 18, 18)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel2)
-                            .addComponent(apellido, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(29, 29, 29)
-                        .addComponent(cancelar)))
-                .addGap(18, 18, 18)
-                .addComponent(eliminar)
-                .addContainerGap(171, Short.MAX_VALUE))
-            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(layout.createSequentialGroup()
-                    .addContainerGap()
-                    .addComponent(jLabel3)
-                    .addGap(34, 34, 34)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(jLabel1)
-                        .addComponent(nombre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(nuevo))
-                    .addGap(27, 27, 27)
-                    .addComponent(editar)
-                    .addGap(27, 27, 27)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(buscar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(btnBus))
-                    .addGap(20, 20, 20)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 131, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-        );
+        getContentPane().add(eliminar, new org.netbeans.lib.awtextra.AbsoluteConstraints(269, 155, -1, -1));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -184,7 +108,6 @@ public class VEncargado extends javax.swing.JFrame implements IEncargado{
     
 @Override
     public void setPresentador(PEncargado m) {
-        nuevo.addActionListener(m);
         guardar.addActionListener(m);
         cancelar.addActionListener(m);
         editar.addActionListener(m);
@@ -194,10 +117,6 @@ public class VEncargado extends javax.swing.JFrame implements IEncargado{
 
     @Override
     public void iniciar() {
-        guardar.setEnabled(false);
-        cancelar.setEnabled(false);
-        nombre.setEnabled(false);
-        apellido.setEnabled(false);
         pack();
         setLocationRelativeTo(null);
         setVisible(true);
@@ -205,17 +124,17 @@ public class VEncargado extends javax.swing.JFrame implements IEncargado{
 
     @Override
     public String getnombre() {
-       return nombre.getText();
+       return v.StringSwing(nombre.getText(),"nombre");
     }
     
      @Override
     public String getapellido() {
-       return apellido.getText();
+       return v.StringSwing(apellido.getText(),"apellido");
     }
 
     @Override
     public String getBusqueda() {
-       return buscar.getText();
+       return v.StringSwing(buscar.getText(),"buscar");
     }
 
     @Override
@@ -238,32 +157,12 @@ public class VEncargado extends javax.swing.JFrame implements IEncargado{
     }
 
     @Override
-    public void habilitar() {
-        eliminar.setEnabled(false);
-        nuevo.setEnabled(false);
-        guardar.setEnabled(true);
-        cancelar.setEnabled(true);
-        editar.setEnabled(false);
-        nombre.setEnabled(true);
-        apellido.setEnabled(true);
-    }
-
-    @Override
     public void restaurar() {
-        eliminar.setEnabled(true);
-        nuevo.setEnabled(true);
-        guardar.setEnabled(false);
-        cancelar.setEnabled(false);
-        editar.setEnabled(true);        
-        nombre.setEnabled(false);
-        apellido.setEnabled(false);
-        limpiarCampos();
-    }
-
-     private void limpiarCampos(){
         nombre.setText("");
         apellido.setText("");
     }
+
+     
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTextField apellido;
     private javax.swing.JButton btnBus;
@@ -277,7 +176,6 @@ public class VEncargado extends javax.swing.JFrame implements IEncargado{
     private javax.swing.JLabel jLabel3;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTextField nombre;
-    private javax.swing.JButton nuevo;
     private javax.swing.JTable tabla;
     // End of variables declaration//GEN-END:variables
 }

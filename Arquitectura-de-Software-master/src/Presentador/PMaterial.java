@@ -1,106 +1,95 @@
 package Presentador;
 
-import InterfacesPresentador.IPMaterial;
 import InterfacesVistas.IBGrupo;
 import InterfacesVistas.IMaterial;
 import Logica.Grupo;
 import Logica.Material;
+import Persistencia.DaoMaterial;
+import Persistencia.IDao;
 import Vistas.VBGrupo;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.List;
 
-public class PMaterial implements ActionListener, IPMaterial{
+public class PMaterial implements ActionListener{
     private IMaterial vista;
     private Material material;
-    private Grupo g;
-    private PComun p = new PComun(this);
-    int opcboton = 1;
+    private Grupo grupo;
+    IDao dao = new DaoMaterial();
 
     public PMaterial(IMaterial vista, Material material) {
         this.vista = vista;
         this.material = material;
-        p.actionPerformed(new ActionEvent(this, 1, "Mostrar Materiales"));
     }
     
-    @Override
-    public void nuevo() {
-        vista.habilitar();
-        opcboton = 1;
-    }
-
-    @Override
-    public void guardar() {
-        String nombre= vista.getnombre();
-        String unidad= vista.getunidad();
-        String grupo= vista.getgrupo();
-        
-        if(!nombre.equals("")&&!unidad.equals("")&&!grupo.equals("")){
-            int Grupo=Integer.parseInt(grupo);
-            switch(opcboton){
-                case 1:
-                    p.crearMaterial(nombre,unidad,Grupo);
-                    vista.mostrarMensaje("Material creado");
-                    vista.restaurar();
-                    break;
-                case 2:
-                    if(vista.getItem()!=-1){
-                        p.editarMaterial(vista.getItem(),nombre,unidad,Grupo);
-                        vista.mostrarMensaje("Material actualizado");
-                        vista.restaurar();
-                    } else{
-                        vista.mostrarMensaje("Seleccione un material");
-                    }
-                    break;
-            }
-            
-        } else{
-            vista.mostrarMensaje("No deje el campo en blanco.");
-        }    
-    }
-
-    @Override
     public void cancelar() {
         vista.mostrarMensaje("Operación cancelada.");
         vista.restaurar();
     }
 
-    @Override
-    public void editar() {
-        vista.habilitar();
-        opcboton = 2;
+    public void registrar() {
+        material.setNombre(vista.getnombre());
+        material.setUnidad(vista.getunidad());
+        grupo.setIdGrupo(vista.getgrupo());
+        material.setGrupo(grupo);
+        dao.insertar(material);
+        mostrarMateriales();
+        vista.mostrarMensaje("Material Registrado");
+        vista.restaurar();
     }
 
-    @Override
-    public void eliminar() {
-        if(vista.getItem()!=-1){
-            p.eliminarMaterial(vista.getItem());
-            vista.mostrarMensaje("Material eliminado");
-            vista.restaurar();
-        } else{
-            vista.mostrarMensaje("Seleccione un material");
-        }
+    public void editar() {
+        material = buscarMaterial(vista.getItem());
+        material.setNombre(vista.getnombre());
+        material.setUnidad(vista.getunidad());
+        grupo.setIdGrupo(vista.getgrupo());
+        material.setGrupo(grupo);
+        dao.actualizar(material);
+        mostrarMateriales();
+        vista.mostrarMensaje("Material Actualizado");
+        vista.restaurar();
     }
-    
-    @Override
-    public void mostrar(String[][] matriz){
+
+    public void eliminar() {
+        material = buscarMaterial(vista.getItem());
+        dao.eliminar(material);
+        mostrarMateriales();
+        vista.mostrarMensaje("Material Eliminado");
+    }
+
+    public Material buscarMaterial(int id) {
+        material = (Material) dao.buscar(id);
+        return material;
+    }
+
+    public void mostrarMateriales() {
+        List<Material> materiales = dao.listado();
+        String[][] matriz = new String[materiales.size()][4];
+        for (int i = 0; i < materiales.size(); i++) {
+            matriz[i][0] = String.valueOf(materiales.get(i).getIdMaterial());
+            matriz[i][1] = materiales.get(i).getNombre();
+            matriz[i][2] = materiales.get(i).getUnidad();
+            matriz[i][3] = materiales.get(i).getGrupo().getNombre();
+        }
+        vista.setSalida(matriz);
+    }
+
+    public void mostrarMaterialesPorNombre() {
+        List<Material> materiales = dao.listadoPorNombre(vista.getBusqueda());
+        String[][] matriz = new String[materiales.size()][4];
+        for (int i = 0; i < materiales.size(); i++) {
+            matriz[i][0] = String.valueOf(materiales.get(i).getIdMaterial());
+            matriz[i][1] = materiales.get(i).getNombre();
+            matriz[i][2] = materiales.get(i).getUnidad();
+            matriz[i][3] = materiales.get(i).getGrupo().getNombre();
+        }
         vista.setSalida(matriz);
     }
     
     @Override
-    public void buscar(){
-        if(!vista.getBusqueda().equals("")){
-            p.mostrarMaterialesPorNombre(vista.getBusqueda());
-        } else{
-            p.actionPerformed(new ActionEvent(this, 1, "Mostrar Materiales"));
-        }
-    }
-    
-    @Override
     public void actionPerformed(ActionEvent evento) {
-        if (evento.getActionCommand().equals(IMaterial.nuevo)) {
-            nuevo();           
-        } else if (evento.getActionCommand().equals(IMaterial.guardar)) {
-            guardar();
+        if (evento.getActionCommand().equals(IMaterial.guardar)) {
+            registrar();
         } else if (evento.getActionCommand().equals(IMaterial.cancelar)) {
             cancelar();
         } else if (evento.getActionCommand().equals(IMaterial.editar)) {
@@ -108,23 +97,22 @@ public class PMaterial implements ActionListener, IPMaterial{
         } else if (evento.getActionCommand().equals(IMaterial.eliminar)) {
             eliminar();
         } else if (evento.getActionCommand().equals(IMaterial.buscar)) {
-            buscar();
+            mostrarMaterialesPorNombre();
         } else if (evento.getActionCommand().equals(IMaterial.buscarGrupo)){
             buscarGrupo();
         }
     }    
 
-    @Override
     public void mostrarGrupo() {
-        vista.mostrarGrupo(String.valueOf(g.getIdGrupo()));
+        vista.mostrarGrupo(grupo.getIdGrupo());
     }
     public void buscarGrupo(){
         IBGrupo ib = new VBGrupo(null,true);
         PBGrupo pg = new PBGrupo(ib);
         ib.setPresentador(pg);
         ib.iniciar();
-        g = pg.getGrupo();
-        if(g!=null){
+        grupo = pg.getGrupo();
+        if(grupo!=null){
             mostrarGrupo();
         }
     }

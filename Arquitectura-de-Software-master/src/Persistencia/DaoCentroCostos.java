@@ -11,7 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class DaoCentroCostos implements IDaoCentroCostos<CentroCostos>{
+public class DaoCentroCostos implements IDao<CentroCostos>{
     private Connection connect = conexion.getInstance();
 
     @Override
@@ -88,7 +88,7 @@ public class DaoCentroCostos implements IDaoCentroCostos<CentroCostos>{
     }
 
     @Override
-    public List<CentroCostos> listadoTipo(String input) {
+    public List<CentroCostos> listadoPorNombre(String input) {
         List<CentroCostos> lista = new ArrayList<>();
         try {
             String sql = "select * from centrocostos where tipo like '"+input+"%';";

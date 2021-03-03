@@ -3,7 +3,7 @@ package Persistencia;
 
 import java.util.List;
 
-public interface IDaoResponsable<G> {
+public interface IDao<G> {
     void insertar(G obj);
     void actualizar(G obj);
     G buscar(int id);

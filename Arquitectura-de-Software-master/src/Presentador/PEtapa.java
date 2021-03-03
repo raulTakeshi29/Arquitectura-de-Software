@@ -1,100 +1,85 @@
 package Presentador;
 
-import InterfacesPresentador.IPEtapa;
 import InterfacesVistas.IEtapa;
 import Logica.Etapa;
+import Persistencia.DaoEtapa;
+import Persistencia.IDao;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.List;
 
-public class PEtapa implements ActionListener, IPEtapa{
+public class PEtapa implements ActionListener{
     private IEtapa vista;
     private Etapa etapa;
-    private PComun p = new PComun(this);
-    int opcboton = 1;
+    IDao dao= new DaoEtapa();
 
     public PEtapa(IEtapa vista, Etapa etapa) {
         this.vista = vista;
         this.etapa= etapa;
-        p.actionPerformed(new ActionEvent(this, 1, "Mostrar Etapas"));
     }
     
-    @Override
-    public void nuevo() {
-        vista.habilitar();
-        opcboton = 1;
-    }
-
-    @Override
-    public void guardar() {
-        String nombre= vista.getnombre();
-        
-        if(!nombre.equals("")){
-            
-            switch(opcboton){
-                case 1:
-                    p.crearEtapa(nombre);
-                    vista.mostrarMensaje("Etapa creado");
-                    vista.restaurar();
-                    break;
-                case 2:
-                    if(vista.getItem()!=-1){
-                        p.editarEtapa(vista.getItem(),nombre);
-                        vista.mostrarMensaje("Etapa actualizado");
-                        vista.restaurar();
-                    } else{
-                        vista.mostrarMensaje("Seleccione un etapa");
-                    }
-                    break;
-            }
-            
-        } else{
-            vista.mostrarMensaje("No deje el campo en blanco.");
-        }    
-    }
-
-    @Override
+    
     public void cancelar() {
         vista.mostrarMensaje("Operación cancelada.");
         vista.restaurar();
     }
 
-    @Override
-    public void editar() {
-        vista.habilitar();
-        opcboton = 2;
+    public void registrar() {
+        etapa.setNombre(vista.getnombre());
+        dao.insertar(etapa);
+        vista.mostrarMensaje("Etapa Registrada");
+        vista.restaurar();
+
     }
 
-    @Override
+    public void editar() {
+        etapa = buscarEtapa(vista.getItem());
+        etapa.setNombre(vista.getnombre());
+        dao.actualizar(etapa);
+        vista.mostrarMensaje("Etapa Actualizada");
+        vista.restaurar();
+
+    }
+
     public void eliminar() {
-        if(vista.getItem()!=-1){
-            p.eliminarEtapa(vista.getItem());
-            vista.mostrarMensaje("Etapa eliminado");
-            vista.restaurar();
-        } else{
-            vista.mostrarMensaje("Seleccione un etapa");
+        etapa = buscarEtapa(vista.getItem());
+        dao.eliminar(etapa);
+        vista.mostrarMensaje("Etapa Eliminada");
+    }
+
+    public void mostrarEtapas() {
+        List<Etapa> etapas = dao.listado();
+        String[][] matriz = new String[etapas.size()][2];
+
+        for (int i = 0; i < etapas.size(); i++) {
+            matriz[i][0] = String.valueOf(etapas.get(i).getIdEtapa());
+            matriz[i][1] = etapas.get(i).getNombre();
         }
+        vista.setSalida(matriz);
+
     }
     
-    @Override
-    public void mostrar(String[][] matriz){
+    public void mostrarEtapasPorNombre(){
+         List<Etapa> etapas = dao.listadoPorNombre(vista.getBusqueda());
+        String[][] matriz = new String[etapas.size()][2];
+
+        for (int i = 0; i < etapas.size(); i++) {
+            matriz[i][0] = String.valueOf(etapas.get(i).getIdEtapa());
+            matriz[i][1] = etapas.get(i).getNombre();
+        }
         vista.setSalida(matriz);
     }
+
+    public Etapa buscarEtapa(int pos) {
+        etapa = (Etapa) dao.buscar(pos);
+        return etapa;
+    }
+    
     
     @Override
-    public void buscar(){
-        if(!vista.getBusqueda().equals("")){
-            p.mostrarEtapasPorNombre(vista.getBusqueda());
-        } else{
-            p.actionPerformed(new ActionEvent(this, 1, "Mostrar Etapas"));
-        }
-    }
-
-    @Override
     public void actionPerformed(ActionEvent evento) {
-        if (evento.getActionCommand().equals(IEtapa.nuevo)) {
-            nuevo();           
-        } else if (evento.getActionCommand().equals(IEtapa.guardar)) {
-            guardar();
+        if (evento.getActionCommand().equals(IEtapa.guardar)) {
+            registrar();
         } else if (evento.getActionCommand().equals(IEtapa.cancelar)) {
             cancelar();
         } else if (evento.getActionCommand().equals(IEtapa.editar)) {
@@ -102,7 +87,7 @@ public class PEtapa implements ActionListener, IPEtapa{
         } else if (evento.getActionCommand().equals(IEtapa.eliminar)) {
             eliminar();
         } else if (evento.getActionCommand().equals(IEtapa.buscar)) {
-            buscar();
+            mostrarEtapasPorNombre();
         }
     }
     

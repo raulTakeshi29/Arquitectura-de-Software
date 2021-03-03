@@ -1,11 +1,11 @@
 package Persistencia;
 public abstract class DaoFactory {
-    public abstract IDaoMaterial getMaterial();
-    public abstract IDaoGrupo getGrupo();
-    public abstract IDaoResponsable getResponsable();
-    public abstract IDaoEtapa getEtapa();
-    public abstract IDaoEncargado getEncargado();
-    public abstract IDaoProyecto getProyecto();
-    public abstract IDaoCentroCostos getCentroCostos();
+    public abstract IDao getMaterial();
+    public abstract IDao getGrupo();
+    public abstract IDao getResponsable();
+    public abstract IDao getEtapa();
+    public abstract IDao getEncargado();
+    public abstract IDao getProyecto();
+    public abstract IDao getCentroCostos();
 }
 

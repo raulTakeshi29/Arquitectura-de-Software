@@ -14,7 +14,7 @@ import javax.swing.JOptionPane;
  * @author sroma
  */
 public class VBEtapa extends java.awt.Dialog implements IBEtapa{
-
+Validacion v = new Validacion();
     /**
      * Creates new form VBEtapa
      */
@@ -106,7 +106,7 @@ public class VBEtapa extends java.awt.Dialog implements IBEtapa{
 
     @Override
     public String getBusqueda() {
-        return etapa.getText();
+        return v.StringSwing(etapa.getText(),"buscar");
     }
 
     @Override

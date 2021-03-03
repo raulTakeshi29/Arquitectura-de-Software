@@ -1,47 +1,47 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package Presentador;
-
-/**
- *
- * @author TAKESHI
- */
-import InterfacesPresentador.IPBGrupo;
 import InterfacesVistas.IBGrupo;
 import Logica.Grupo;
+import Persistencia.DaoGrupo;
+import Persistencia.IDao;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.List;
 
-public class PBGrupo implements ActionListener,IPBGrupo{
+public class PBGrupo implements ActionListener{
     private IBGrupo vista;
     private Grupo grupo;
-    private PComun p = new PComun(this);
+    IDao dao = new DaoGrupo();
 
     public PBGrupo(IBGrupo vista) {
         this.vista = vista;
-        p.actionPerformed(new ActionEvent(this, 1, "Mostrar Grupos"));
     }
     
-    @Override
     public void asignarGrupo(){
-        if(vista.getItem()!=-1){
-            grupo = p.buscarGrupo(vista.getItem());            
-            vista.cerrar();
-        } else{
-            vista.mostrarMensaje("Seleccione un grupo");
-        }
+        grupo = (Grupo) dao.buscar(vista.getItem());            
+        vista.cerrar();
     }  
     
-    @Override
-    public void buscar(){
-        if(!vista.getBusqueda().equals("")){
-            p.mostrarGruposPorNombre(vista.getBusqueda());
-        } else{
-            p.actionPerformed(new ActionEvent(this, 1, "Mostrar Grupos"));
+    public void mostrar() {
+        List<Grupo> grupos = dao.listado();
+        String[][] matriz = new String[grupos.size()][2];
+
+        for (int i = 0; i < grupos.size(); i++) {
+            matriz[i][0] = String.valueOf(grupos.get(i).getIdGrupo());
+            matriz[i][1] = grupos.get(i).getNombre();
         }
+        vista.setSalida(matriz);
+
+    }
+    
+    public void buscar(){
+         List<Grupo> grupos = dao.listadoPorNombre(vista.getBusqueda());
+        String[][] matriz = new String[grupos.size()][2];
+
+        for (int i = 0; i < grupos.size(); i++) {
+            matriz[i][0] = String.valueOf(grupos.get(i).getIdGrupo());
+            matriz[i][1] = grupos.get(i).getNombre();
+        }
+        vista.setSalida(matriz);
     }
 
     @Override
@@ -55,12 +55,6 @@ public class PBGrupo implements ActionListener,IPBGrupo{
         }
     } 
     
-    @Override
-    public void mostrar(String[][] matriz){
-        vista.setSalida(matriz);
-    }
-
-    @Override
     public Grupo getGrupo() {
         return grupo;
     }    

@@ -14,7 +14,7 @@ import javax.swing.JOptionPane;
  * @author sroma
  */
 public class VBEncargado extends java.awt.Dialog implements IBEncargado{
-
+Validacion v = new Validacion();
     /**
      * Creates new form VBEncargado
      */
@@ -106,7 +106,7 @@ public class VBEncargado extends java.awt.Dialog implements IBEncargado{
 
     @Override
     public String getBusqueda() {
-        return encargado.getText();
+        return v.StringSwing(encargado.getText(),"buscar");
     }
 
     @Override

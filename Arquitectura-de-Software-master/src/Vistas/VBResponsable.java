@@ -14,7 +14,7 @@ import javax.swing.JOptionPane;
  * @author sroma
  */
 public class VBResponsable extends java.awt.Dialog implements IBResponsable{
-
+Validacion v = new Validacion();
     /**
      * Creates new form VBResponsable
      */
@@ -107,7 +107,7 @@ public class VBResponsable extends java.awt.Dialog implements IBResponsable{
 
     @Override
     public String getBusqueda() {
-        return responsable.getText();
+        return v.StringSwing(responsable.getText(),"buscar");
     }
 
     @Override

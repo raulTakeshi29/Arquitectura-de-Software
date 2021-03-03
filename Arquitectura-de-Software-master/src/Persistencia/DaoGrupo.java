@@ -14,7 +14,7 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
-public class DaoGrupo implements IDaoGrupo<Grupo>{
+public class DaoGrupo implements IDao<Grupo>{
     private Connection connect = conexion.getInstance();    
     @Override
     public void insertar(Grupo g) {

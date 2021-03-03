@@ -1,38 +1,47 @@
 package Presentador;
-
-import InterfacesPresentador.IPBEtapa;
 import InterfacesVistas.IBEtapa;
 import Logica.Etapa;
+import Persistencia.DaoEtapa;
+import Persistencia.IDao;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.List;
 
-public class PBEtapa implements ActionListener,IPBEtapa{
+public class PBEtapa implements ActionListener{
     private IBEtapa vista;
     private Etapa etapa;
-    private PComun p = new PComun(this);
+    IDao dao = new DaoEtapa();
 
     public PBEtapa(IBEtapa vista) {
         this.vista = vista;
-        p.actionPerformed(new ActionEvent(this, 1, "Mostrar Etapas"));
     }
     
-    @Override
     public void asignarEtapa(){
-        if(vista.getItem()!=-1){
-            etapa = p.buscarEtapa(vista.getItem());            
-            vista.cerrar();
-        } else{
-            vista.mostrarMensaje("Seleccione un etapa");
-        }
+        etapa = (Etapa) dao.buscar(vista.getItem());            
+        vista.cerrar();
     }  
     
-    @Override
-    public void buscar(){
-        if(!vista.getBusqueda().equals("")){
-            p.mostrarEtapasPorNombre(vista.getBusqueda());
-        } else{
-            p.actionPerformed(new ActionEvent(this, 1, "Mostrar Etapas"));
+    public void mostrar() {
+        List<Etapa> etapas = dao.listado();
+        String[][] matriz = new String[etapas.size()][2];
+
+        for (int i = 0; i < etapas.size(); i++) {
+            matriz[i][0] = String.valueOf(etapas.get(i).getIdEtapa());
+            matriz[i][1] = etapas.get(i).getNombre();
         }
+        vista.setSalida(matriz);
+
+    }
+    
+    public void buscar(){
+         List<Etapa> etapas = dao.listadoPorNombre(vista.getBusqueda());
+        String[][] matriz = new String[etapas.size()][2];
+
+        for (int i = 0; i < etapas.size(); i++) {
+            matriz[i][0] = String.valueOf(etapas.get(i).getIdEtapa());
+            matriz[i][1] = etapas.get(i).getNombre();
+        }
+        vista.setSalida(matriz);
     }
 
     @Override
@@ -46,12 +55,6 @@ public class PBEtapa implements ActionListener,IPBEtapa{
         }
     } 
     
-    @Override
-    public void mostrar(String[][] matriz){
-        vista.setSalida(matriz);
-    }
-
-    @Override
     public Etapa getEtapa() {
         return etapa;
     }    

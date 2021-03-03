@@ -15,7 +15,7 @@ import javax.swing.JOptionPane;
  * @author TAKESHI
  */
 public class VResponsable extends javax.swing.JFrame implements IResponsable{
-
+Validacion v= new Validacion();
     /**
      * Creates new form VResponsable
      */
@@ -33,7 +33,6 @@ public class VResponsable extends javax.swing.JFrame implements IResponsable{
     private void initComponents() {
 
         jLabel1 = new javax.swing.JLabel();
-        nuevo = new javax.swing.JButton();
         guardar = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         tabla = new javax.swing.JTable();
@@ -52,9 +51,7 @@ public class VResponsable extends javax.swing.JFrame implements IResponsable{
         jLabel1.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         jLabel1.setText("RESPONSABLES");
 
-        nuevo.setText("Nuevo");
-
-        guardar.setText("Guardar");
+        guardar.setText("Registrar");
 
         tabla.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -106,13 +103,8 @@ public class VResponsable extends javax.swing.JFrame implements IResponsable{
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                .addComponent(nuevo)
-                                .addGap(34, 34, 34))
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(editar)
-                                .addGap(36, 36, 36)))
+                        .addComponent(editar)
+                        .addGap(36, 36, 36)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(cancelar)
                             .addComponent(guardar)
@@ -130,7 +122,6 @@ public class VResponsable extends javax.swing.JFrame implements IResponsable{
                 .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(61, 61, 61)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(nuevo)
                     .addComponent(guardar)
                     .addComponent(jLabel2)
                     .addComponent(nombre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -156,7 +147,6 @@ public class VResponsable extends javax.swing.JFrame implements IResponsable{
 
     @Override
     public void setPresentador(PResponsable m) {
-        nuevo.addActionListener(m);
         guardar.addActionListener(m);
         cancelar.addActionListener(m);
         editar.addActionListener(m);
@@ -166,9 +156,6 @@ public class VResponsable extends javax.swing.JFrame implements IResponsable{
 
     @Override
     public void iniciar() {
-        guardar.setEnabled(false);
-        cancelar.setEnabled(false);
-        nombre.setEnabled(false);
         pack();
         setLocationRelativeTo(null);
         setVisible(true);
@@ -176,17 +163,17 @@ public class VResponsable extends javax.swing.JFrame implements IResponsable{
 
     @Override
     public String getnombre() {
-        return nombre.getText();
+        return v.StringSwing(nombre.getText(),"nombre");
     }
 
     @Override
     public String getApellido() {
-        return apellido.getText();
+        return v.StringSwing(apellido.getText(),"apellido");
     }
 
     @Override
     public String getBusqueda() {
-        return buscar.getText();
+        return v.StringSwing(buscar.getText(),"buscar");
     }
 
     @Override
@@ -209,31 +196,11 @@ public class VResponsable extends javax.swing.JFrame implements IResponsable{
     }
 
     @Override
-    public void habilitar() {
-        eliminar.setEnabled(false);
-        nuevo.setEnabled(false);
-        guardar.setEnabled(true);
-        cancelar.setEnabled(true);
-        editar.setEnabled(false);
-        nombre.setEnabled(true);
-    }
-
-    @Override
     public void restaurar() {
-        eliminar.setEnabled(true);
-        nuevo.setEnabled(true);
-        guardar.setEnabled(false);
-        cancelar.setEnabled(false);
-        editar.setEnabled(true);        
-        nombre.setEnabled(false);
-     
-        limpiarCampos();
+        nombre.setText("");
     }
     
-    private void limpiarCampos(){
-        nombre.setText("");
-        
-    }
+   
 
     /**
      * @param args the command line arguments
@@ -253,7 +220,6 @@ public class VResponsable extends javax.swing.JFrame implements IResponsable{
     private javax.swing.JLabel jLabel3;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTextField nombre;
-    private javax.swing.JButton nuevo;
     private javax.swing.JTable tabla;
     // End of variables declaration//GEN-END:variables
 }

@@ -10,7 +10,7 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
-public class DaoResponsable implements IDaoResponsable <Responsable>{
+public class DaoResponsable implements IDao <Responsable>{
 
     private Connection connect = conexion.getInstance();
 

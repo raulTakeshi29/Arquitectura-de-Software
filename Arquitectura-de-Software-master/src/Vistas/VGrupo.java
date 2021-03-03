@@ -14,7 +14,7 @@ import javax.swing.JOptionPane;
  * @author TAKESHI
  */
 public class VGrupo extends javax.swing.JFrame implements IGrupo{
-
+Validacion v= new Validacion();
     /**
      * Creates new form VGrupo
      */
@@ -34,7 +34,6 @@ public class VGrupo extends javax.swing.JFrame implements IGrupo{
         jLabel1 = new javax.swing.JLabel();
         nombre = new javax.swing.JTextField();
         buscar = new javax.swing.JTextField();
-        nuevo = new javax.swing.JButton();
         guardar = new javax.swing.JButton();
         editar = new javax.swing.JButton();
         cancelar = new javax.swing.JButton();
@@ -48,9 +47,7 @@ public class VGrupo extends javax.swing.JFrame implements IGrupo{
 
         jLabel1.setText("Nombre:");
 
-        nuevo.setText("Nuevo");
-
-        guardar.setText("Guardar");
+        guardar.setText("Registrar");
 
         editar.setText("Editar");
 
@@ -94,33 +91,34 @@ public class VGrupo extends javax.swing.JFrame implements IGrupo{
                                     .addComponent(nombre))
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addGroup(layout.createSequentialGroup()
-                                        .addGap(150, 150, 150)
-                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                            .addComponent(editar)
-                                            .addComponent(nuevo)))
+                                        .addGap(152, 152, 152)
+                                        .addComponent(editar))
                                     .addGroup(layout.createSequentialGroup()
                                         .addGap(34, 34, 34)
                                         .addComponent(btnBus)))
                                 .addGap(18, 18, 18)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(cancelar)
-                                    .addComponent(guardar)
                                     .addComponent(eliminar))))
                         .addGap(121, 121, 121)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addGap(0, 0, Short.MAX_VALUE)
+                .addComponent(guardar)
+                .addGap(223, 223, 223))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGap(24, 24, 24)
                 .addComponent(jLabel3)
-                .addGap(34, 34, 34)
+                .addGap(11, 11, 11)
+                .addComponent(guardar)
+                .addGap(1, 1, 1)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
-                    .addComponent(nombre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(nuevo)
-                    .addComponent(guardar))
-                .addGap(27, 27, 27)
+                    .addComponent(nombre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(29, 29, 29)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(cancelar)
                     .addComponent(editar))
@@ -153,13 +151,11 @@ public class VGrupo extends javax.swing.JFrame implements IGrupo{
     private javax.swing.JLabel jLabel3;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTextField nombre;
-    private javax.swing.JButton nuevo;
     private javax.swing.JTable tabla;
     // End of variables declaration//GEN-END:variables
 
     @Override
     public void setPresentador(PGrupo m) {
-        nuevo.addActionListener(m);
         guardar.addActionListener(m);
         cancelar.addActionListener(m);
         editar.addActionListener(m);
@@ -169,9 +165,6 @@ public class VGrupo extends javax.swing.JFrame implements IGrupo{
 
     @Override
     public void iniciar() {
-        guardar.setEnabled(false);
-        cancelar.setEnabled(false);
-        nombre.setEnabled(false);
         pack();
         setLocationRelativeTo(null);
         setVisible(true);
@@ -179,12 +172,12 @@ public class VGrupo extends javax.swing.JFrame implements IGrupo{
 
     @Override
     public String getnombre() {
-       return nombre.getText();
+       return v.StringSwing(nombre.getText(),"nombre");
     }
 
     @Override
     public String getBusqueda() {
-       return buscar.getText();
+       return v.StringSwing(buscar.getText(),"buscar");
     }
 
     @Override
@@ -207,31 +200,10 @@ public class VGrupo extends javax.swing.JFrame implements IGrupo{
     }
 
     @Override
-    public void habilitar() {
-        eliminar.setEnabled(false);
-        nuevo.setEnabled(false);
-        guardar.setEnabled(true);
-        cancelar.setEnabled(true);
-        editar.setEnabled(false);
-        nombre.setEnabled(true);
-        
-    }
-
-    @Override
     public void restaurar() {
-        eliminar.setEnabled(true);
-        nuevo.setEnabled(true);
-        guardar.setEnabled(false);
-        cancelar.setEnabled(false);
-        editar.setEnabled(true);        
-        nombre.setEnabled(false);
-     
-        limpiarCampos();
+        nombre.setText("");
     }
 
-     private void limpiarCampos(){
-        nombre.setText("");
-        
-    }
+    
     
 }

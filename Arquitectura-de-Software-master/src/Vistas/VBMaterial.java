@@ -14,7 +14,7 @@ import javax.swing.JOptionPane;
  * @author sroma
  */
 public class VBMaterial extends java.awt.Dialog implements IBMaterial{
-
+Validacion v = new Validacion();
     /**
      * Creates new form VBMaterial
      */
@@ -106,7 +106,7 @@ public class VBMaterial extends java.awt.Dialog implements IBMaterial{
 
     @Override
     public String getBusqueda() {
-        return material.getText();
+        return v.StringSwing(material.getText(),"buscar");
     }
 
     @Override

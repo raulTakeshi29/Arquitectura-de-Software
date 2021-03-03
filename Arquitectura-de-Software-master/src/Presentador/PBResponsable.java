@@ -1,40 +1,47 @@
 
 package Presentador;
-
-import InterfacesPresentador.IPBResponsable;
 import InterfacesVistas.IBResponsable;
 import Logica.Etapa;
 import Logica.Responsable;
+import Persistencia.DaoResponsable;
+import Persistencia.IDao;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.List;
 
-public class PBResponsable implements ActionListener,IPBResponsable{
+public class PBResponsable implements ActionListener{
     private IBResponsable vista;
     private Responsable responsable;
-    private PComun p = new PComun(this);
+    IDao dao = new DaoResponsable();
 
     public PBResponsable(IBResponsable vista) {
         this.vista = vista;
-        p.actionPerformed(new ActionEvent(this, 1, "Mostrar Responsables"));
     }
     
-    @Override
     public void asignarResponsable(){
-        if(vista.getItem()!=-1){
-            responsable = p.buscarResponsable(vista.getItem());            
-            vista.cerrar();
-        } else{
-            vista.mostrarMensaje("Seleccione un responsable");
-        }
+        responsable = (Responsable) dao.buscar(vista.getItem());            
+        vista.cerrar();
     }  
     
-    @Override
-    public void buscar(){
-        if(!vista.getBusqueda().equals("")){
-            p.mostrarResponsablePorNombre(vista.getBusqueda());
-        } else{
-            p.actionPerformed(new ActionEvent(this, 1, "Mostrar Responsables"));
+   public void mostrar() {
+        List<Responsable> responsables = dao.listado();
+        String[][] matriz = new String[responsables.size()][3];
+        for (int i = 0; i < responsables.size(); i++) {
+            matriz[i][0] = String.valueOf(responsables.get(i).getId());
+            matriz[i][1] = responsables.get(i).getNombre();
+            matriz[i][2] = responsables.get(i).getApellido();
         }
+        vista.setSalida(matriz);
+    }
+    public void buscar(){
+        List<Responsable> responsables = dao.listadoPorNombre(vista.getBusqueda());
+        String[][] matriz = new String[responsables.size()][3];
+        for (int i = 0; i < responsables.size(); i++) {
+            matriz[i][0] = String.valueOf(responsables.get(i).getId());
+            matriz[i][1] = responsables.get(i).getNombre();
+            matriz[i][2] = responsables.get(i).getApellido();
+        }
+        vista.setSalida(matriz);
     }
 
     @Override
@@ -48,12 +55,6 @@ public class PBResponsable implements ActionListener,IPBResponsable{
         }
     } 
     
-    @Override
-    public void mostrar(String[][] matriz){
-        vista.setSalida(matriz);
-    }
-
-    @Override
     public Responsable getResponsable() {
         return responsable;
     }     

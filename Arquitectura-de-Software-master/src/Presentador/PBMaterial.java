@@ -4,44 +4,54 @@
  * and open the template in the editor.
  */
 package Presentador;
-
-import InterfacesPresentador.IPBMaterial;
 import InterfacesVistas.IBMaterial;
 import Logica.Material;
+import Persistencia.DaoMaterial;
+import Persistencia.IDao;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.List;
 
 /**
  *
  * @author sroma
  */
-public class PBMaterial implements ActionListener, IPBMaterial{
+public class PBMaterial implements ActionListener {
     private IBMaterial vista;
     private Material material;
-    private PComun p = new PComun(this);
+    IDao dao = new DaoMaterial();
 
     public PBMaterial(IBMaterial vista) {
         this.vista = vista;
-        p.actionPerformed(new ActionEvent(this, 1, "Mostrar Materiales"));
     }
     
-    @Override
     public void asignarMaterial(){
-        if(vista.getItem()!=-1){
-            material = p.buscarMaterial(vista.getItem());            
+            material = (Material) dao.buscar(vista.getItem());            
             vista.cerrar();
-        } else{
-            vista.mostrarMensaje("Seleccione un material");
-        }
     }  
     
-    @Override
-    public void buscar(){
-        if(!vista.getBusqueda().equals("")){
-            p.mostrarMaterialesPorNombre(vista.getBusqueda());
-        } else{
-            p.actionPerformed(new ActionEvent(this, 1, "Mostrar Materiales"));
+    public void mostrar() {
+        List<Material> materiales = dao.listado();
+        String[][] matriz = new String[materiales.size()][4];
+        for (int i = 0; i < materiales.size(); i++) {
+            matriz[i][0] = String.valueOf(materiales.get(i).getIdMaterial());
+            matriz[i][1] = materiales.get(i).getNombre();
+            matriz[i][2] = materiales.get(i).getUnidad();
+            matriz[i][3] = materiales.get(i).getGrupo().getNombre();
         }
+        vista.setSalida(matriz);
+    }
+
+    public void buscar() {
+        List<Material> materiales = dao.listadoPorNombre(vista.getBusqueda());
+        String[][] matriz = new String[materiales.size()][4];
+        for (int i = 0; i < materiales.size(); i++) {
+            matriz[i][0] = String.valueOf(materiales.get(i).getIdMaterial());
+            matriz[i][1] = materiales.get(i).getNombre();
+            matriz[i][2] = materiales.get(i).getUnidad();
+            matriz[i][3] = materiales.get(i).getGrupo().getNombre();
+        }
+        vista.setSalida(matriz);
     }
 
     @Override
@@ -55,12 +65,6 @@ public class PBMaterial implements ActionListener, IPBMaterial{
         }
     } 
     
-    @Override
-    public void mostrar(String[][] matriz){
-        vista.setSalida(matriz);
-    }
-
-    @Override
     public Material getMaterial() {
         return material;
     }    

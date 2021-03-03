@@ -10,7 +10,7 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
-public class DaoEncargado implements IDaoEncargado<Encargado>{
+public class DaoEncargado implements IDao<Encargado>{
      private Connection connect = conexion.getInstance();    
     @Override
     public void insertar(Encargado en) {
